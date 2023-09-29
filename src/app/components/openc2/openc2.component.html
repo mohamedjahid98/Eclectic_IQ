@@ -1,0 +1,165 @@
+<div class="kt-grid kt-grid--hor kt-grid--root">
+  <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
+    <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
+      <!-- begin:: Content -->
+      <div class="kt-portlet kt-portlet--mobile">
+        <div class="kt-portlet__head kt-portlet__head--lg">
+          <div class="kt-portlet__head-label">
+            <span class="kt-portlet__head-icon">
+              <i class="kt-font-brand fa fa-stream"></i>
+            </span>
+            <h3 class="kt-portlet__head-title">
+              Response Action
+            </h3>
+          </div>
+          <div  *AppHasRole="role.adminAccess"  class="kt-portlet__head-toolbar">
+            <div class="kt-portlet__head-wrapper">
+              <div class="">
+                <!-- <a [routerLink]="['./add-openc2']" class="btn btn-outline-success btn-icon-sm">
+                  <i class="fa fa-hand-point-right"></i>
+                  Create New Response Action
+                </a> -->
+                <appbutton text="Create New Response Action" btnClass="btn-small btn-long" btnType="button" icon="fa-hand-point-right" btnLink="./add" ></appbutton>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="kt-portlet__body tbl-bg">
+          <div class="" style="margin-bottom: 60px;" >
+            <div class="row">
+              <div class="col-md-12 row-filter-search pull-right">
+                <search class="pull-right"  (keyup.enter)="tableSearch()" (valueChange)='tableSearch()'></search>
+              </div>
+            </div>
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover table-checkable row-border hover">
+              <thead>
+                <tr role="row" *ngIf="selectedCount > 0;">
+  								<th class="chk-pad close-icon" (click)="removeSelectedResponse()">
+  								    <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+  								</th>
+  								<th style="color:#1F1F1F !important"> {{selectList.length}} selected </th>
+  								<th></th>
+  								<th></th>
+  								<th></th>
+  								<th></th>
+  								<th></th>
+                  <th></th>
+  								<th *AppHasRole="role.adminAccess"><i title="Delete selected Response" (click) ="deleteBulkResponse()" class="fa fa fa-trash-alt pl-2 delete-icon"></i></th>
+  							</tr>
+                <tr>
+                  <th class="chk-pad">
+                    <div class="custom-control mt-2 custom-checkbox">
+                      <input type="checkbox" [(ngModel)]="masterSelected" (change)="checkUncheckAll()"
+                       class="custom-control-input" id="masterCheck">
+                      <label class="custom-control-label" for="masterCheck"></label>
+                    </div>
+    							</th>
+                  <th>Action</th>
+                  <th>Target</th>
+                  <th class="dt-center">Command</th>
+                  <th>Executed</th>
+                  <th>Created At</th>
+                  <th>Created By</th>
+                  <th>view</th>
+                  <th *AppHasRole="role.adminAccess"></th>
+                </tr>
+              </thead>
+              <tbody class="tbody_font">
+                <tr *ngFor="let resultsdata of results; let i = index" [ngClass]="{'row-selected':selectList.includes(resultsdata.id)}" role="row">
+                  <td class="chk-pad">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox"  [(ngModel)]="checklist[i].isSelected"  (change)="isAllSelected(resultsdata.id)"
+                       class="custom-control-input" id="customCheck_{{i}}">
+                      <label class="custom-control-label" for="customCheck_{{i}}"></label>
+                    </div>
+  								</td>
+                  <td class="">
+                    <span *ngIf="resultsdata.action == 'contain'" style="color:#337ab7"><span></span>{{resultsdata?.action}}</span>
+                    <span *ngIf="resultsdata.action == 'delete'" style="color:#d9534f"><span></span>{{resultsdata?.action}}</span>
+                    <span *ngIf="resultsdata.action == 'stop'" style="color:#165136"><span></span>{{resultsdata?.action}}</span>
+                    <span *ngIf="resultsdata.action == 'agent restart'" style="color:#165136"><span></span>{{resultsdata?.action}}</span>
+                    <span *ngIf="resultsdata.action == '1'" style="color:#165136"><span></span>Upgrade</span>
+                    <span *ngIf="resultsdata.action == '2'" style="color:#d9534f"><span></span>Uninstall</span>
+                    <span *ngIf="resultsdata.action == 'script_execution'" style="color:#165136"><span></span>{{resultsdata?.action}}</span>
+                    <span *ngIf="resultsdata.action == 'upgrade'" style="color:#165136"><span></span>{{resultsdata?.action}}</span>
+                    <span *ngIf="resultsdata.action == 'agent upgrade'" style="color:#165136"><span></span>{{resultsdata?.action}}</span>
+                    <span *ngIf="resultsdata.action == 'agent uninstall'" style="color:#d9534f"><span></span>{{resultsdata?.action}}</span>
+                    <span *ngIf="resultsdata.action == 'Batch'" style="color:#165136"><span></span>{{resultsdata.action}}</span>
+                    <span *ngIf="resultsdata.action == 'Powershell'" style="color:#165136"><span></span>{{resultsdata.action}}</span>
+                    <span *ngIf="resultsdata.action == 'Shell script'" style="color:#165136"><span></span>{{resultsdata.action}}</span>
+
+                  </td>
+                  <td class="">{{resultsdata?.target}}
+                  </td>
+                  <td class="dt-center">
+                    <input type="hidden" id="commnadId" name="commandId" value={{resultsdata.id}}>
+                    <span style="color: #4b991d; cursor:pointer;" (click)="response_action($event,resultsdata.id)"><img src="./assets/media/view-files.svg" data-toggle='modal' data-target='#myModal' height="25px" width="25px"
+                        alt="{{resultsdata?.id}}" /></span>
+                  </td>
+                  <td style="padding-left: 45px;">{{resultsdata?.Executed}}</td>
+                  <td class="">
+                    <span>{{validDateFormat(resultsdata.created_at)}}</span>
+
+                  </td>
+                  <td> {{resultsdata?.owner.username}} </td>
+                  <td>
+                    <div style="margin-left: 20px;">
+                      <a [routerLink]="['./view', resultsdata?.id]" class="">
+                        <i style="color: #999999;cursor: pointer;" title="View Response" class="fa fa fa-eye"></i>
+
+                      </a>
+                    </div>
+                  </td>
+                  <td *AppHasRole="role.adminAccess">
+                    <i  (click) ="deleteResponse(resultsdata?.id)" title="Delete Response" class="fa fa fa-trash-alt delete-icon"></i>
+                  </td>
+                </tr>
+                <tr role="row" class="text-center" *ngIf="results?.length === 0">
+                  <td colspan="9">
+                    {{errorMessage}}
+                  </td>
+                </tr>
+              </tbody>
+
+            </table>
+
+            <!--end: Datatable -->
+          </div>
+        <!--Begin:: Modal-->
+        <div class="modal left fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="display: none; position: fixed; background-color: hsla(0, 0%, 0%, 0.45)">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3 class=""><span id='stitle'>View Command</span></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body kt-scroll" data-scrollbar-shown="true">
+                <!--begin:: Widgets/Tasks -->
+                <form class="kt-form" id="kt_form">
+                  <div class="row">
+                    <div class="col-xl-12">
+                      <div class="kt-section kt-section--first">
+                        <div class="kt-section__body">
+                          <div class="" *ngIf="toggle">
+                            <json-editor class="col-md-12" style="min-height: 300px;" [options]="editorOptions" [data]="data"></json-editor>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                <!--end:: Widgets/Tasks -->
+              </div>
+              <div class="modal-footer align-center">
+                <!-- <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button> -->
+               <appbutton text="Close"  btnClass="btn-small-opaque" btnType="button" modalDismiss="modal" (click)="closeModal('myModal')"></appbutton>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end:: Modal-->
+      </div>
+      <!-- end:: Content -->
+    </div>
+  </div>
+</div>

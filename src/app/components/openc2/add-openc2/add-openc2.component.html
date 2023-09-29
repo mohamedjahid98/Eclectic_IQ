@@ -1,0 +1,605 @@
+<!-- Begin:: Content -->
+<div class="kt-grid kt-grid--hor kt-grid--root">
+  <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
+  <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
+  <!-- Begin:: Portlet -->
+  <div class="kt-portlet kt-portlet--responsive-mobile tbl-bg">
+  <!-- Begin:: Head -->
+  <div class="kt-portlet__head" style="background-color: white;">
+  <div class="kt-portlet__head-label">
+  <span class="kt-portlet__head-icon">
+  <i class="kt-font-brand fas fa-paper-plane"></i>
+  </span>
+  <h3 class="kt-portlet__head-title">
+  Send Response Action to Agent
+  </h3>
+  </div>
+  <!-- <div class="kt-portlet__head-toolbar">
+  <div class="kt-portlet__head-wrapper">
+  <div style="cursor: pointer;" onclick="goBack()" class="btn btn-clean btn-sm" data-skin="dark" data-toggle="kt-tooltip" data-placement="top" title="Back to Previous Page"></div>
+  </div>
+  </div> -->
+  <div class="kt-portlet__head-toolbar">
+    <div class="kt-portlet__head-wrapper">
+      <!-- <a href="javascript:void(0)" (click)="goBack()" class="btn btn-clean btn-sm" data-skin="dark" data-toggle="kt-tooltip" data-placement="top" title="Back to Previous Page">
+        <i class="fas fa-chevron-left back_icon_align"></i>
+        Back
+      </a> -->
+      <appbutton (click)="goBack()" text="Back" icon="fa-chevron-left" btnClass="btn-small-light" btnType="button"></appbutton>
+    </div>
+  </div>
+  </div>
+  <!-- End:: Head -->
+  <!-- Begin:: Body -->
+  <div class="kt-portlet__body">
+  <!-- Begin:: Portlet/tab_action -->
+  <div class="kt-portlet">
+  <div class="kt-portlet__body">
+  <ul class="nav nav-tabs nav-tabs-line nav-tabs-line-success" role="tablist">
+  <li class="nav-item">
+  <a class="nav-link active" (click)="setTarget('file')" data-toggle="tab" href="#action_file" role="tab">File</a>
+  </li>
+  <li class="nav-item">
+  <a class="nav-link" (click)="setTarget('process')" data-toggle="tab" href="#action_process" role="tab">Process</a>
+  </li>
+  <li class="nav-item">
+  <a class="nav-link" (click)="setTarget('ip_connection')" data-toggle="tab" href="#action_network" role="tab">Network</a>
+  </li>
+  <li class="nav-item">
+  <a class="nav-link" (click)="setTarget('script_execution')" data-toggle="tab" href="#action_script" role="tab">Custom Action
+  <!-- <sup data-toggle="popover" id="beta_popover" style="color:red" click="showPopover(this);" title="Beta" data-content="PolyLogyx ESP allows for a custom script to be executed on the endpoint under management. This feature is currently under 'beta' and supported on Windows OS only. Use the above text box to input a batch or a powershell script. The return value/exit code of the script will be returned to the caller. The output of the script can be piped to a file and then file can be retrieved using carves."> Beta</sup> -->
+  </a>
+  </li>
+  <div class="kt-section__content" style="margin-left: auto;">
+  <form class="form form-horizontal" [formGroup]="Validatorform" (ngSubmit)="onSubmit()">
+  <!-- <div class="btn-group" style="right: 10px;">
+  <span class="actuator-align">Actuator</span>
+  <div class="btn-group"> -->
+  <!-- <angular2-multiselect name="dropdown-{{user.id}}" [data]="dropdownList" [(ngModel)]="selectedItems[user.id]"
+  [settings]="dropdownSettings"
+  (onSelect)="onItemSelect($event, user.id)"
+  (onDeSelect)="OnItemDeSelect($event,user.id)"
+  (onSelectAll)="onSelectAll($event)"
+  (onDeSelectAll)="onDeSelectAll($event)" disabled>
+  </angular2-multiselect> -->
+
+  <!-- <angular2-multiselect [data]="actuator_dropdownList"
+  [settings]="settings1"
+  (onSelect)="onItemSelect($event)"
+  (onDeSelect)="OnItemDeSelect($event)"
+  (onSelectAll)="onSelectAll($event)"
+  (onDeSelectAll)="onDeSelectAll($event)" formControlName="actuator" [ngClass]="{ 'is-invalid': submitted && f.actuator.errors }">
+  </angular2-multiselect> -->
+  <!-- <angular2-multiselect [data]="actuator_dropdownList" formControlName="actuator" [ngClass]="{ 'is-invalid': submitted && v.actuator.errors }"
+  [settings]="actuator_dropdownSettings"
+  (onSelect)="onItemSelect($event)"
+  (onDeSelect)="OnItemDeSelect($event)"
+  (onSelectAll)="onSelectAll($event)"
+  (onDeSelectAll)="onDeSelectAll($event)">
+  </angular2-multiselect> -->
+  <!-- <div *ngIf="submitted && v.actuator?.errors" class="invalid-feedback">
+  <div *ngIf="v.actuator?.errors.required">Actuator is required</div>
+  </div> -->
+  <!-- <select class="form-control selectpicker" (change)="onChangeActuator($event)" title="Select Actuator..." data-live-search="true">
+  <option value="polylogyx_vasp"> polylogyx_vasp </option>
+  </select> -->
+  <!-- </div>
+  </div> &nbsp;&nbsp; -->
+  <div class="btn-group">
+  <span class="actuator-align-id"></span>
+  <div class="btn-group">
+   <angular2-multiselect [data]="actuatorid_dropdownList" formControlName="ActuatorID" [ngClass]="{ 'is-invalid': submitted && v.ActuatorID.errors }"
+    [settings]="actuatorid_dropdownSettings"
+    (onSelect)="onItemSelect($event)"
+    (onDeSelect)="OnItemDeSelect($event)"
+    (onSelectAll)="onSelectAll($event)"
+    (onDeSelectAll)="onDeSelectAll($event)">
+   </angular2-multiselect>
+  <!-- <select class="form-control selectpicker" name="ActuatorID" id="ActuatorID" formControlName="ActuatorID" data-live-search="true" (change)="onChangeActuatorId($event)" data-title="Select Actuator ID..."
+  [ngClass]="{ 'is-invalid': submitted && v.ActuatorID?.errors }">
+  <option value=""></option>
+  <option *ngFor="let host of res_results" value="{{host.host_identifier}}"> {{host.display_name}} </option>
+  </select> -->
+  <!-- <div *ngIf="submitted && v.ActuatorID?.errors" class="invalid-feedback">
+  <div *ngIf="v.ActuatorID?.errors.required">Please select Actuator ID</div>
+  </div> -->
+  </div>
+  <div class="btn-group" >
+    <angular2-multiselect [data]="taggedList"
+                  [settings]="tagSettings"
+                  (onSelect)="onItemSelect($event)"
+                  (onDeSelect)="OnItemDeSelect($event)"
+                  (onSelectAll)="onSelectAll($event)"
+                  (onDeSelectAll)="onDeSelectAllTags($event)" formControlName="tags">
+    </angular2-multiselect>
+  </div>
+  <div class="btn-group" >
+    <angular2-multiselect [data]="osNameList"
+                  [settings]="osNameListSettings"
+                  (onSelect)="onItemSelect($event)"
+                  (onDeSelect)="OnItemDeSelect($event)"
+                  (onSelectAll)="onSelectAll($event)"
+                  (onDeSelectAll)="onDeSelectAllOsName($event)" formControlName="osName">
+    </angular2-multiselect>
+  </div>
+  </div>
+
+  <!-- <div class="btn-group">
+  <span class="actuator-align-id">Actuator ID </span>
+  <div class="btn-group">
+  <ng-select [items]="res_results" name="ActuatorID" id="ActuatorID" formControlName="ActuatorID"
+  bindLabel="display_name"
+  placeholder="Select Actuator ID"
+  [(ngModel)]="selected_act_ID" (change)="onChangeActuatorId($event)" required [disabled]="isFormDisabled">
+  </ng-select>
+  <div *ngIf="submitted" class="invalid-feedback">
+  <div *ngIf="v.ActuatorID?.errors.required">Please select Actuator ID</div>
+  </div>
+  </div>
+  </div> -->
+  </form>
+  </div>
+  </ul>
+  <div class="tab-content">
+  <div class="tab-pane active" id="action_file" role="tabpanel">
+  <form class="form form-horizontal" [formGroup]="fileform" (ngSubmit)="onSubmit()">
+  <!--begin:: File Action -->
+  <div class="row">
+  <div class="col-12">
+  <div class="kt-section kt-section--first">
+  <div class="kt-section__body">
+  <div class="form-group row required">
+  <label class="col-3 col-form-label" for="file_name">File Name</label>
+  <div class="col-9">
+  <input type="text" name="file_name" id="file_name" formControlName="file_name" class="form-control" value="" [ngClass]="{ 'is-invalid': submitted && f.file_name?.errors }" />
+  <div *ngIf="submitted && f.file_name?.errors" class="invalid-feedback">
+  <div *ngIf="f.file_name?.errors.required">Error On File Name Field</div>
+  </div>
+  <span class="description_ex">Example: For Windows: C:\Users\{{project_name}}\Downloads\suspicious.exe, For Linux: /home/user/suspicious.sh</span>
+  </div>
+  </div>
+  <div id="" class="form-group row">
+  <label class="col-3 col-form-label" for="hash">MD5 Hash</label>
+  <div class="col-9">
+  <input class="form-control" formControlName="hash" id="hash" name="hash" type="text" value="">
+  </div>
+  </div>
+  <div class="form-group row">
+  <label class="col-3 col-form-label" for="file_action">Action</label>
+  <div class="col-9">
+  <div class="kt-radio-inline">
+  <label class="kt-radio">
+  <input id="file_action-0" formControlName="file_action" [(ngModel)]="file_selected" type="radio" value="delete">
+  <label for="file_action-0">Delete</label>
+  <span></span>
+  </label>
+  </div>
+  </div>
+  </div>
+  <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>
+  <div class="kt-form">
+  <div class="mandary">
+  <span class="" style="color: #e32;">*</span><span style="font-size: smaller;"> Mandatory Fields</span>
+  </div>
+
+  </div>
+  <div class="kt-form__actions kt-form__actions--center" style="text-align: center;">
+  <appbutton text="Send" btnClass="btn-small" btnType="submit" icon="fa-paper-plane"></appbutton>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </form>
+  <!--end:: File Action -->
+  </div>
+  <div class="tab-pane" id="action_process" role="tabpanel">
+  <form class="form form-horizontal" [formGroup]="processform" (ngSubmit)="onProcessSubmit()">
+  <!--begin:: Process Action -->
+  <div class="row">
+  <div class="col-12">
+  <div class="kt-section kt-section--first">
+  <div class="kt-section__body">
+  <div class="form-group row required">
+  <label class="col-3 col-form-label" for="process_name">Process Name</label>
+  <div class="col-9">
+  <input class="form-control" formControlName="process_name" id="process_name" name="process_name" type="text" value="" [ngClass]="{ 'is-invalid': submitted && g.process_name?.errors }">
+  <div *ngIf="submitted && g.process_name?.errors" class="invalid-feedback">
+  <div *ngIf="g.process_name?.errors.required">Error On Process Name Field</div>
+  </div>
+  <span class="description_ex">Example: Windows - suspicious.exe, Linux - /home/user/suspicious.sh, MacOS - /System/Applications/Calculator.app/Contents/MacOS/Calculator</span>
+  </div>
+  </div>
+  <div id="" class="form-group row required">
+  <label class="col-3 col-form-label" for="pid">Process Id</label>
+  <div class="col-9">
+  <input class="form-control" id="pid" formControlName="pid" name="pid" type="text" value="" [ngClass]="{ 'is-invalid': submitted && g.pid?.errors }">
+  <div *ngIf="submitted && g.pid?.errors" class="invalid-feedback">
+  <div *ngIf="g.pid?.errors.required">Error On Process Id Field</div>
+  <div *ngIf="g.pid?.errors.pattern">Please select a positive value </div>
+  </div>
+  </div>
+  </div>
+  <div class="form-group row">
+  <label class="col-3 col-form-label" for="process_action">Action</label>
+  <div class="col-9">
+  <div class="kt-radio-inline">
+  <label class="kt-radio">
+  <input checked="" id="process_action-0" [(ngModel)]="process_selected" formControlName="process_action" name="process_action" type="radio" value="stop">
+  <label for="process_action-0">Stop</label>
+  <span></span>
+  </label>
+  </div>
+  </div>
+  </div>
+  <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>
+  <div class="kt-form">
+  <div class="mandary">
+  <span class="" style="color: #e32;">*</span><span style="font-size: smaller;"> Mandatory Fields</span>
+  </div>
+
+  </div>
+  <div class="kt-form__actions kt-form__actions--center" style="text-align: center;">
+  <appbutton text="Send" btnClass="btn-small" btnType="submit" icon="fa-paper-plane"></appbutton>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  <!--end:: Process Action -->
+  </form>
+  </div>
+  <div class="tab-pane" id="action_network" role="tabpanel">
+  <form class="form form-horizontal" [formGroup]="networkform" (ngSubmit)="onNetworkSubmit()">
+  <!--begin:: Network Action -->
+  <div class="row">
+  <div class="col-12">
+  <div class="kt-section kt-section--first">
+  <div class="kt-sect/manageion__body">
+  <div class="form-group row">
+  <label class="col-3 col-form-label" for="network_action">Action</label>
+  <div class="col-9">
+  <div class="kt-radio-inline">
+  <label class="kt-radio">
+  <input id="network_action-1" type="radio" [(ngModel)]="network_selected" (change)="network_show = false" value="delete" name="network_action" formControlName="network_action">
+  <label for="network_action-1">Delete</label>
+  <span></span>
+  </label>
+  <label class="kt-radio">
+  <input checked="" id="network_action-0" [(ngModel)]="network_selected" type="radio" (change)="network_show = true" value="contain" name="network_action" formControlName="network_action">
+  <label for="network_action-0">Isolate</label>
+  <span></span>
+  </label>
+  </div>
+  </div>
+  </div>
+  <!--begin:: Network Action Isolate-->
+  <div class="" id="actions" *ngIf="network_show">
+  <div class="form-group row">
+  <label class="col-3 col-form-label" for="rule_group">Rule Group</label>
+  <div class="col-9">
+  <input class="form-control" id="rule_group" name="rule_group" formControlName="rule_group" type="text" value="">
+  </div>
+  </div>
+  <div class="form-group row">
+  <label class="col-3 col-form-label" for="rule_description">Rule Description</label>
+  <div class="col-9">
+  <textarea class="form-control" id="rule_description" name="rule_description" formControlName="rule_description"></textarea>
+  </div>
+  </div>
+  <div class="form-group row">
+  <label class="col-3 col-form-label" for="application_type">Program</label>
+  <div class="col-9">
+  <div class="kt-radio-inline">
+  <label class="kt-radio">
+  <input checked="" id="application_type-0" name="application_type" formControlName="application_type" (change)="app_show = false" [(ngModel)]="program_selected" type="radio" value="ANY">
+  <label for="application_type-0">Any</label>
+  <span></span>
+  </label>
+  <label class="kt-radio">
+  <input id="application_type-1" name="application_type" formControlName="application_type" (change)="app_show = true" [(ngModel)]="program_selected" type="radio" value="SPECIFIC">
+  <label for="application_type-1">Specific Program</label>
+  <span></span>
+  </label>
+  </div>
+  </div>
+  </div>
+  <div class="form-group row" id="program" *ngIf="app_show">
+  <div class="col-3"></div>
+  <div class="col-9">
+  <input class="form-control" id="application" name="application" formControlName="application" placeholder="Specific Program" type="text" value="" [ngClass]="{'is-invalid': submitted && h.application.errors }">
+  <span class="description_ex">Example: C:\path\program.exe&ensp;(or)&ensp;%ProgramFiles%\browser\program.exe</span>
+  <div *ngIf="submitted && h.application?.errors" class="invalid-feedback">
+    <div *ngIf="h.application?.errors.required">Please provide Specific Program</div>
+    </div>
+  </div>
+  </div>
+  <div class="form-group row">
+  <label class="col-3 col-form-label">Direction</label>
+  <div class="col-9">
+  <div class="kt-radio-inline">
+  <label class="kt-radio">
+  <input checked="" id="direction-0" name="direction" formControlName="direction" type="radio" [(ngModel)]="direction_selected" value="1">
+  <label for="direction-0">IN</label>
+  <span></span>
+  </label>
+  <label class="kt-radio">
+  <input id="direction-1" name="direction" formControlName="direction" type="radio" [(ngModel)]="direction_selected" value="2">
+  <label for="direction-1">OUT</label>
+  <span></span>
+  </label>
+  </div>
+  </div>
+  </div>
+  <div class="form-group row">
+  <label class="col-3 col-form-label" for="layer4_protocol">Protocol</label>
+  <div class="col-9">
+  <div class="kt-radio-inline">
+  <label class="kt-radio">
+  <input checked="" id="layer4_protocol-0" name="layer4_protocol" formControlName="layer4_protocol" type="radio" [(ngModel)]="protocol_selected" value="2">
+  <label for="layer4_protocol-0">Any</label>
+  <span></span>
+  </label>
+  <label class="kt-radio">
+  <input id="layer4_protocol-1" name="layer4_protocol" formControlName="layer4_protocol" type="radio" [(ngModel)]="protocol_selected" value="6">
+  <label for="layer4_protocol-1">TCP</label>
+  <span></span>
+  </label>
+  <label class="kt-radio">
+  <input id="layer4_protocol-2" name="layer4_protocol" formControlName="layer4_protocol" type="radio" [(ngModel)]="protocol_selected" value="17">
+  <label for="layer4_protocol-2">UDP</label>
+  <span></span>
+  </label>
+  </div>
+  </div>
+  </div>
+  <div class="form-group row" *ngIf="networkform.value.layer4_protocol !=2">
+  <label class="col-3 col-form-label" for="src_port_type">Local Port</label>
+  <div class="col-9">
+  <div class="kt-radio-inline">
+  <label class="kt-radio">
+  <input checked="" id="src_port_type-0" name="src_port_type" formControlName="src_port_type" (change)="src_show = false" type="radio" [(ngModel)]="local_port_selected" value="ANY" >
+  <label for="src_port_type-0">Any</label>
+  <span></span>
+  </label>
+  <label class="kt-radio">
+  <input id="src_port_type-1" name="src_port_type" formControlName="src_port_type" (change)="src_show = true" type="radio" [(ngModel)]="local_port_selected" value="SPECIFIC" >
+  <label for="src_port_type-1">Specific Port</label>
+  <span></span>
+  </label>
+  </div>
+  </div>
+  </div>
+  <div class="form-group row " id="src_port" *ngIf="src_show">
+  <div class="col-3"></div>
+  <div class="col-9">
+  <input type="text" pattern= "^(?:([0-9]+)|\*)(?:[,|-]\s*(?:([0-9]+)|\*))*$" class="form-control" id="src_port" name="src_port" formControlName="src_port" placeholder="Specific Port" type="text" value="" [ngClass]="{ 'is-invalid': submitted && h.src_port.errors }">
+  <div *ngIf="submitted && h.src_port.errors" class="invalid-feedback">
+  <!-- <div *ngIf="h.src_port.errors.required">Interval is required</div> -->
+  <div *ngIf="h.src_port.errors">Please provide valid Local Port</div>
+  <!-- <div *ngIf="h.src_port.errors.min">Please select Positive number</div> -->
+  </div>
+  <span class="description_ex">Example: 80-8080, 443, 9000</span>
+  </div>
+  </div>
+  <div class="form-group row" *ngIf="networkform.value.layer4_protocol !=2">
+  <label class="col-3 col-form-label" for="dst_port_type">Remote Port</label>
+  <div class="col-9">
+  <div class="kt-radio-inline">
+  <label class="kt-radio">
+  <input checked="" id="dst_port_type-0" name="dst_port_type" formControlName="dst_port_type" (change)="dst_show = false" type="radio" [(ngModel)]="remote_port_selected" value="ANY">
+  <label for="dst_port_type-0">Any</label>
+  <span></span>
+  </label>
+  <label class="kt-radio">
+  <input id="dst_port_type-1" name="dst_port_type" formControlName="dst_port_type" (change)="dst_show = true" type="radio" [(ngModel)]="remote_port_selected" value="SPECIFIC">
+  <label for="dst_port_type-1">Specific Port</label>
+  <span></span>
+  </label>
+  </div>
+  </div>
+  </div>
+  <div class="form-group row" id="dst_port" *ngIf="dst_show">
+  <div class="col-3"></div>
+  <div class="col-9">
+  <input type="text" pattern= "^(?:([0-9]+)|\*)(?:[,|-]\s*(?:([0-9]+)|\*))*$" class="form-control" id="dst_port" name="dst_port" formControlName="dst_port" placeholder="Specific Port" type="text" value=""[ngClass]="{ 'is-invalid': submitted && h.dst_port.errors }">
+  <div *ngIf="submitted && h.dst_port.errors" class="invalid-feedback">
+  <div *ngIf="h.dst_port.errors">Please provide valid Remote Port</div>
+  <!-- <div *ngIf="h.dst_port.errors.min">Please select Positive Remote Port</div> -->
+  </div>
+  <!-- {{ network_form.dst_port(class_="form-control", placeholder="Specific Port") }} -->
+  <span class="description_ex">Example: 80-8080, 443, 9000</span>
+  </div>
+  </div>
+  <div class="form-group row">
+  <label class="col-3 col-form-label" for="dst_addr_type">Destination Address</label>
+  <div class="col-9">
+  <div class="kt-radio-inline">
+  <label class="kt-radio">
+  <input checked="" id="dst_addr_type-0" name="dst_addr_type" formControlName="dst_addr_type" (change)="dst_addr_show = false" type="radio" [(ngModel)]="dest_addr_selected" value="*">
+  <label for="dst_addr_type-0">Any</label>
+  <span></span>
+  </label>
+  <label class="kt-radio">
+  <input id="dst_addr_type-1" name="dst_addr_type" formControlName="dst_addr_type" (change)="dst_addr_show = true" type="radio" [(ngModel)]="dest_addr_selected" value="SPECIFIC">
+  <label for="dst_addr_type-1">Specific Address</label>
+  <span></span>
+  </label>
+  </div>
+  </div>
+  </div>
+  <div class="form-group row" id="destination" *ngIf="dst_addr_show">
+  <div class="col-3"></div>
+  <div class="col-9">
+  <input class="form-control" pattern='^(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.(?:25[0-5]|2[0-4]\d|[01]?\d\d?)|\*)(?:[,|-]\s*(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.(?:25[0-5]|2[0-4]\d|[01]?\d\d?)|\*))*$' id="dst_addr" formControlName="dst_addr" name="dst_addr" placeholder="Specific Address" type="text" value="" [ngClass]="{ 'is-invalid': submitted && h.dst_addr?.errors }">
+  <div *ngIf="submitted && h.dst_addr?.errors" class="invalid-feedback">
+  <div *ngIf="h.dst_addr?.errors">please provide valid destination address</div>
+  <!-- <div *ngIf="h.dst_port.errors.min">Please select Positive Remote Port</div> -->
+  </div>
+  <span class="description_ex">Example: 172.16.0.234&ensp;(or)&ensp;172.16.0.0-172.16.0.24</span>
+  </div>
+  </div>
+  </div>
+  <div class="form-group row required">
+  <label class="col-3 col-form-label" for="rule_name">Rule Name</label>
+  <div class="col-9">
+  <input class="form-control" id="rule_name" name="rule_name" formControlName="rule_name" type="text" value="" [ngClass]="{ 'is-invalid': submitted && h.rule_name?.errors }">
+  <div *ngIf="submitted && h.rule_name?.errors" class="invalid-feedback">
+  <div *ngIf="h.rule_name?.errors.required">Error On Rule Name Field</div>
+  </div>
+  </div>
+  </div>
+  <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>
+  <div class="kt-form">
+  <div class="mandary">
+  <span class="" style="color: #e32;">*</span><span style="font-size: smaller;"> Mandatory Fields</span>
+  </div>
+  </div>&nbsp;&nbsp;&nbsp;
+  <div class="kt-form">
+    <div class="mandary">
+    <span class="" style="color: #e32;">Note :</span><ul style="font-size: smaller;color: grey;"><li>Applicable only on Windows</li><li *ngIf="network_show">Selecting "Any" for all options under Isolate Action with Direction "OUT" will block agent communication with server</li></ul>
+    </div>
+    </div>
+  <div class="kt-form__actions kt-form__actions--center" style="text-align: center;">
+
+  <appbutton text="Send" btnClass="btn-small" btnType="submit" icon="fa-paper-plane"></appbutton>
+  </div>
+  <!--end:: Network Action Isolate-->
+  </div>
+  </div>
+  </div>
+  </div>
+  <!--end:: Network Action -->
+  </form>
+  </div>
+  <div class="tab-pane" id="action_script" role="tabpanel">
+  <!--begin:: Custom Response -->
+  <form class="form form-horizontal" id="cus_respose_form" [formGroup]="scriptform" (ngSubmit)="onScriptSubmit()" enctype="multipart/form-data">
+
+  <div class="row">
+  <div class="col-12">
+  <div class="kt-section kt-section--first">
+  <div class="kt-section__body">
+
+    <div id="" class="form-group required row">
+      <label class="col-md-2  col-form-label" for="script_name">Script Name</label>
+      <div class="col-10">
+      <input class="form-control" formControlName="script_name" id="script_name" name="script_name" type="text" value="" [ngClass]="{ 'is-invalid': submitted && s.script_name?.errors }">
+      <div *ngIf="submitted && s.script_name?.errors" class="invalid-feedback">
+        <div *ngIf="s.script_name?.errors.required">Error On Script Name Field</div>
+        </div>
+    </div>
+      </div>
+
+  <div class="form-group required row">
+  <label class="col-md-2 col-form-label" for="content">Content</label>
+  <div class="col-10">
+  <textarea name="content" rows="5" cols="50" id="content" [(ngModel)]="content" formControlName="content" class="form-control" value="{{content}}" [ngClass]="{ 'is-invalid': submitted && s.content?.errors }"></textarea>
+
+  </div>
+  </div>
+  <p style="text-align: center;font-weight: bold;">(OR)</p>
+  <div class="form-group row">
+    <!-- <label class="col-3 col-form-label"></label> -->
+    <div class="offset-4 col-4 d-flex center-it">
+      <label for="agent_content_file"  class="btn btn-primary btn-block btn-outlined">Upload a File</label>
+      <input  type="file" class="custom-input-file" accept=".ps1,.sh,.bat"  formControlName="agent_content_file" (change)="uploadFile($event)"  name="agent_content_file" id="agent_content_file" style="display:none">
+      <div *ngIf ="agent_content_file_name" style="margin-left:55%;"> {{agent_content_file_name}}<i style="margin-left:2%;font-size:12px;color: #fa0303;cursor: pointer;" (click) ="resetFile(this.agent_content_file[0])" class="fa fa fa-trash-alt"></i></div>
+
+    </div>
+    <div class="col-4 d-flex">
+      <div class="col-10">
+        <angular2-multiselect [data]="content_dropdownList" formControlName="content_library"  [(ngModel)]="content_selectedItems" class="full-width"
+        [settings]="content_dropdownSettings"
+        (onSelect)="onItemSelect_library($event)"
+        (onDeSelect)="OnItemDeSelect_library($event)"
+        (onDeSelectAll)="onDeSelectAll_library($event)">
+        </angular2-multiselect>
+      </div>
+      <div class="col-2">
+        <i class="badge badge-pill badge-light fa fa-info" title="The script may require customization for your environment, hence please read the comments in the script and modify accordingly."></i>
+      </div>
+    </div>
+    </div>
+    <div id="" class="form-group row">
+      <label class="col-md-2  col-form-label" for="custom_script">Params</label>
+      <div class="col-10">
+      <input class="form-control" formControlName="params" id="params" name="params" type="text" value="">
+      </div>
+      </div>
+
+  <div class="form-group row ">
+    <div class="col-md-2 required">
+  <label class=" col-form-label " for="script_type">Script Type</label>
+</div>
+  <div class="col-10">
+  <div class="kt-radio-inline">
+  <label class="kt-radio">
+  <input id="script_type-3" type="radio" [(ngModel)]="script_type" value="2" name="script_type" formControlName="script_type">
+  <label for="script_type-3">Powershell</label>&nbsp;
+  <img alt='' src='./assets/media/logo/windows.svg' height='19px' width='16px' />
+  <span></span>
+  </label>
+  <label class="kt-radio">
+  <input checked="" id="script_type-0" [(ngModel)]="script_type" type="radio" value="1" name="script_type" formControlName="script_type">
+  <label for="script_type-0">Batch</label>&nbsp;
+  <img alt='' src='./assets/media/logo/windows.svg' height='19px' width='16px' />
+  <span></span>
+  </label>
+  <label class="kt-radio">
+    <input checked="" id="script_type-2" [(ngModel)]="script_type" type="radio" value="4" name="script_type" formControlName="script_type">
+    <label for="script_type-2">Shell Script</label>&nbsp;
+    <img alt='' src='./assets/media/logo/Linux1.svg' height='19px' width='16px' />
+    <span></span>
+    </label>
+  </div>
+  </div>
+  </div>
+  <div class="form-group row ">
+  <label class="col-2 col-form-label " for="script_type">Enable Script Logging</label>
+  <div class="col-10">
+  <div class="kt-radio-inline">
+  <label class="kt-radio">
+  <input id="save_script-1" type="radio" [(ngModel)]="save_script" value="2" name="save_script" formControlName="save_script">
+  <label for="script_type-1">Yes</label>
+  <span></span>
+  </label>
+  <label class="kt-radio">
+  <input checked="" id="save_script-0" [(ngModel)]="save_script" type="radio" value="1" name="save_script" formControlName="save_script">
+  <label for="save_script-0">No</label>
+  <span></span>
+  </label>
+
+  </div>
+  </div>
+  </div>
+  <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>
+  <div class="kt-form">
+  <div class="mandary">
+  <span class="" style="color: #e32;">*</span><span style="font-size: smaller;"> Mandatory Fields</span>
+  </div>
+
+  </div>
+  <div class="kt-form__actions kt-form__actions--center" style="text-align: center;">
+
+  <appbutton text="Send" btnClass="btn-small" btnType="submit" icon="fa-paper-plane"></appbutton>
+  </div>
+
+  </div>
+  </div>
+  </div>
+  </div>
+
+  </form>
+  </div>
+
+  <!-- end:: Portlet/tab_action -->
+  <!-- </form> -->
+  </div>
+  <!-- End:: Body -->
+  </div>
+  <!-- End:: Portlet -->
+  </div>
+  </div>
+  </div>
+  <!-- End:: Content -->

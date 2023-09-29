@@ -1,0 +1,96 @@
+span.failure {
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 2.5;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+    background-color: #d9534f;
+}
+span.success {
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 2.5;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+    background-color: #5cb85c;
+}
+span.pending {
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 2.5;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+    background-color: #518c24;
+}
+.datatable__search input {
+    margin-left: .5em;
+    display: inline-block;
+    width: auto;
+}
+.datatable__search label {
+    float: right;
+    margin-bottom: -12px;
+}
+.txt-clr{
+color: indianred;
+text-align: center;
+/* margin-bottom: 0px; */
+font-weight: 400;
+}
+ .tbody_font {
+  font-size: 13px;
+  font-weight: 600;
+  font-family: Roboto;
+  -moz-osx-font-smoothing: grayscale;
+}
+.kt-portlet .kt-portlet__head .kt-portlet__head-label .kt-portlet__head-title {
+   margin: 0;
+   padding: 0;
+   font-size: 1.2rem;
+   font-weight: 500;
+   color:  #464457;
+}
+.row-selected {
+ background-color:#EDF7F6;
+}
+
+.kt-portlet__body{
+height: 100%;
+}
+::ng-deep.dataTables_wrapper{
+height: 100%;
+display: flex;
+flex-direction: column;
+}
+::ng-deep.table-controls{
+margin: auto 0px 0px 0px;
+width: 100%;
+}
+.table-wrapper{
+    height: 100%;
+}
+::ng-deep.dataTables_paginate.paging_full_numbers{
+    max-width: 100%;
+}
+.table td {
+    padding-left: 0rem;
+    padding-right: 0rem;
+}
+.table th {
+    padding-left: 0rem;
+}

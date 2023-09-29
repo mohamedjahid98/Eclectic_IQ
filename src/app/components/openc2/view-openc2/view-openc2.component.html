@@ -1,0 +1,232 @@
+<!-- Begin:: Content -->
+<div class="kt-grid kt-grid--hor kt-grid--root">
+    <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
+    <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
+    <!-- Begin:: Portlet -->
+    <div class="kt-portlet kt-portlet--responsive-mobile tbl-bg">
+      <!-- Begin:: Head -->
+  <div class="kt-portlet__head" style="background-color: white;">
+    <div class="kt-portlet__head-label">
+    <span class="kt-portlet__head-icon">
+    <i class="kt-font-brand fas fa-paper-plane"></i>
+    </span>
+    <h3 class="kt-portlet__head-title">
+    View Response Action
+    </h3>
+    </div>
+    <div class="kt-portlet__head-toolbar">
+    <div class="kt-portlet__head-wrapper">
+      <!-- <a href="javascript:void(0)" (click)="goBack()" class="btn btn-clean btn-sm" data-skin="dark" data-toggle="kt-tooltip" data-placement="top" title="Back to Previous Page">
+        <i class="fas fa-chevron-left back_icon_align"></i>
+        Back
+      </a>     -->
+      <appbutton (click)="goBack()" text="Back" icon="fa-chevron-left" btnClass="btn-small-light" btnType="button"></appbutton>
+    </div>
+    </div>
+    </div>
+    <!-- End:: Head -->
+      <!-- Begin:: Body -->
+  <div class="kt-portlet__body tbl-bg">
+    <div class="row">
+      <label class="col-md-1 col-form-label form--label" style="color:#595d6e;font-weight:bold;">
+        Action
+      </label>
+      <div class="col-md-2 col-form-label form--p">
+        <span *ngIf="res_total_data?.action == 'contain'" style="color:#337ab7;font-weight: bold;"><span></span>{{res_total_data?.action}}</span>
+        <span *ngIf="res_total_data?.action == 'delete'" style="color:#d9534f;font-weight: bold;"><span></span>{{res_total_data?.action}}</span>
+        <span *ngIf="res_total_data?.action == 'stop'" style="color:#165136;font-weight: bold;"><span></span>{{res_total_data?.action}}</span>
+        <span *ngIf="res_total_data?.action == 'agent restart'" style="color:#165136;font-weight: bold;"><span></span>{{res_total_data?.action}}</span>
+        <span *ngIf="res_total_data?.action == '1'" style="color:#165136;font-weight: bold;"><span></span>Upgrade</span>
+        <span *ngIf="res_total_data?.action == '2'" style="color:#d9534f;font-weight: bold;"><span></span>Uninstall</span>
+        <span *ngIf="res_total_data?.action == 'script_execution'" style="color:#165136;font-weight: bold;"><span></span>{{res_total_data?.action}}</span>
+        <span *ngIf="res_total_data?.action == 'upgrade'" style="color:#165136;font-weight: bold;"><span></span>{{res_total_data?.action}}</span>
+        <span *ngIf="res_total_data?.action == 'agent upgrade'" style="color:#165136;font-weight: bold;"><span></span>{{res_total_data?.action}}</span>
+        <span *ngIf="res_total_data?.action == 'Batch'" style="color:#165136"><span></span>{{res_total_data?.action}}</span>
+        <span *ngIf="res_total_data?.action == 'agent uninstall'" style="color:#d9534f"><span></span>{{res_total_data?.action}}</span>
+        <span *ngIf="res_total_data?.action == 'Powershell'" style="color:#165136"><span></span>{{res_total_data?.action}}</span>
+        <span *ngIf="res_total_data?.action == 'shell script'" style="color:#165136"><span></span>{{res_total_data?.action}}</span>
+
+        <!-- {{res_total_data?.action}} -->
+      </div>
+      <label class="col-md-1 col-form-label form--label" style="color:#595d6e;font-weight:bold;">
+        Target
+      </label>
+      <div class="col-md-2 col-form-label form--p">
+        <span *ngIf="res_total_data?.target == 'file'" style="color:#337ab7;font-weight: bold;"><span></span>{{res_total_data?.target}}</span>
+        <span *ngIf="res_total_data?.target == 'process'" style="color:#165136;font-weight: bold;"><span></span>{{res_total_data?.target}}</span>
+        <span *ngIf="res_total_data?.target == 'script excution'" style="color:#165136;font-weight: bold;"><span></span>{{res_total_data?.target}}</span>
+        <span *ngIf="res_total_data?.target == 'network'" style="color:#165136;font-weight: bold;"><span></span>{{res_total_data?.target}}</span>
+        <span *ngIf="res_total_data?.target == 'ip_connection'" style="color:#165136;font-weight: bold;"><span></span>{{res_total_data?.target}}</span>
+        <span *ngIf="res_total_data?.target == 'script_execution'" style="color:#165136;font-weight: bold;"><span></span>{{res_total_data?.target}}</span>
+        <span *ngIf="res_total_data?.target == 'uninstall'" style="color:#d9534f;font-weight: bold;"><span></span>Uninstall</span>
+        <span *ngIf="res_total_data?.target == 'upgrade'" style="color:#165136;font-weight: bold;"><span></span>Upgrade</span>
+        <span *ngIf="res_total_data?.target == 'agent-restart'" style="color:#165136;font-weight: bold;"><span></span>{{res_total_data?.target}}</span>
+        <span *ngIf="res_total_data?.target == 'script'" style="color:#165136;font-weight: bold;"><span></span>{{res_total_data?.target}}</span>
+
+        <!-- {{res_total_data?.target}} -->
+      </div>
+      <label class="col-md-1 col-form-label form--label" style="color:#595d6e;font-weight:bold;">
+        Command
+      </label>
+      <div class="col-md-2 col-form-label form--p">
+        <span style="color: #4b991d; cursor:pointer;" (click)="response_action($event,res_total_data.command)"><img src="./assets/media/view-files.svg" data-toggle='modal' data-target='#myModal' height="25px" width="25px"
+          alt="{{res_total_data?.command}}" /></span>
+      </div>
+      <label class="col-md-1 col-form-label form--label" style="color:#595d6e;font-weight:bold;">
+        Created
+      </label>
+      <div class="col-md-2 col-form-label form--p">
+        {{validDateFormat(res_total_data?.created_at)}}
+      </div>
+    </div>
+    <!--Begin:: Modal-->
+    <div class="modal left fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="display: none; position: fixed; background-color: hsla(0, 0%, 0%, 0.45)">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class=""><span id='stitle'>View Command</span></h3>
+            <button class="btn btn-small" type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body kt-scroll" data-scrollbar-shown="true">
+            <!--begin:: Widgets/Tasks -->
+            <form class="kt-form" id="kt_form">
+              <div class="row">
+                <div class="col-xl-12">
+                  <div class="kt-section kt-section--first">
+                    <div class="kt-section__body">
+                      <div class="" *ngIf="toggle">
+                        <json-editor class="col-md-12" style="min-height: 300px;" [options]="editorOptions" [data]="data"></json-editor>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <!--end:: Widgets/Tasks -->
+          </div>
+          <div class="modal-footer align-center">
+            <!-- <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button> -->
+            <appbutton text="Close"  btnClass="btn-small-opaque" btnType="button" modalDismiss="modal" (click)="closeModal('myModal')"></appbutton>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end:: Modal-->
+
+    <div class="modal" id="successModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="display: none; background-color: hsla(0, 0%, 0%, 0.45);overflow:scroll;position:absolute;">
+     <div class="modal-dialog modal-lg" role="document" style="width:600px">
+       <div class="modal-content px-3" >
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closemodal()"></button>
+         </div>
+         <div class="modal-body kt-scroll" data-scroll="true"  data-scrollbar-shown="true">
+
+          <form class="kt-form" id="kt_form">
+           <div class="row"><label class="ViewData">Endpoint Id : </label>&nbsp;{{ViewData['HostName']}}</div>
+           <div class="row"><label class="ViewData">Response Sent to Agent at : </label>&nbsp;{{validDateFormat(ViewData['CreatedAt'] )}}</div>
+           <div class="row"><label  class="ViewData">Response Data Received from Agent at : </label>&nbsp;<span *ngIf="ViewData['Status']!='failure'">{{validDateFormat(ViewData['UpdatedAt'] )}}</span><span *ngIf="ViewData['Status']=='failure'">{{ViewData['UpdatedAt']}}</span></div>
+            <div class="row">
+            <pre style="word-wrap: break-word; white-space: pre-wrap;color:595d6e;background-color:white"><label class="ViewData">Response Data : </label>{{successdata}}</pre>
+           </div>
+          </form>
+        </div>
+         <div class="modal-footer align-center">
+           <!-- <button type="button" class="btn btn-outline-secondary" (click)="closemodal()" data-dismiss="modal">Close</button> -->
+           <appbutton text="Close" btnClass="btn-small-opaque" btnType="button" (click)="closemodal()"></appbutton>
+         </div>
+      </div>
+     </div>
+    </div>
+
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover table-checkable row-border hover">
+    <thead>
+      <tr>
+        <th>Host</th>
+        <th>Message</th>
+        <th>Data</th>
+        <th>Status</th>
+        <th>Created Date</th>
+        <th>Update Date</th>
+        <th *AppHasRole="role.adminAccess" >Action</th>
+      </tr>
+    </thead>
+    <tbody class="tbody_font">
+      <tr *ngFor="let resultsdata of results" role="row">
+        <td class="host-link"><a [routerLink]="['/hosts', resultsdata.node_id]" class="active" data-skin="dark"
+           data-toggle="kt-tooltip" data-placement="top" title="click -> Host Details"
+           style="color:#5867dd;font-weight: 600;">{{resultsdata?.hostname}}</a>
+        </td>
+        <td class="">{{resultsdata.message}}</td>
+        <td>
+          <i *ngIf="res_total_data?.target == 'file';else checkProcess" title="View Data" class="fa fa fa-eye fa-black-icon"></i>
+          <ng-template #checkProcess>
+           <i *ngIf="res_total_data?.target == 'process';else checkNetwork"  title="View Data" class="fa fa fa-eye fa-black-icon"></i>
+          </ng-template>
+          <ng-template #checkNetwork>
+            <i *ngIf="res_total_data?.target == 'network';else checkIpConnection" title="View Data" class="fa fa fa-eye fa-black-icon"></i>
+          </ng-template>
+          <ng-template #checkIpConnection>
+            <i *ngIf="res_total_data?.target == 'ip_connection';else elseViewdata" title="View Data" class="fa fa fa-eye fa-black-icon"></i>
+          </ng-template>
+          <ng-template #elseViewdata>
+            <i title="View Data" (click)="openPopup(resultsdata.data,resultsdata.status,resultsdata.hostname,resultsdata.created_at,resultsdata.updated_at)" class="fa fa fa-eye fa-green-icon"></i>
+          </ng-template>
+        </td>
+        <td class="">
+          <span *ngIf="resultsdata?.status == 'received';else Check_status_in_progress" style="color:#f0ad4e">Received</span>
+            <ng-template #Check_status_in_progress>
+              <span *ngIf="resultsdata?.status == 'in-progress'; else Check_status_pending" style="color:#f0ad4e">In-Progress</span>
+            </ng-template>
+            <ng-template #Check_status_pending>
+              <span *ngIf="resultsdata?.status == 'pending'; else Check_status_failure" style="color:#f0ad4e">Pending</span>
+            </ng-template>
+            <ng-template #Check_status_failure>
+            <span *ngIf="resultsdata?.status == 'failure'; else Check_status_success" style="color:#d9534f"><span></span>Failure</span>
+            </ng-template>
+            <ng-template #Check_status_success>
+              <span *ngIf="resultsdata?.status == 'success'; else Check_status_cancelled" style="color:#5cb85c"><span></span>Success</span>
+            </ng-template >
+            <ng-template #Check_status_cancelled>
+              <span *ngIf="resultsdata?.status == 'cancelled'; else Check_status_cancelInitiated" style="color:#d9534f">Cancelled</span>
+            </ng-template>
+            <ng-template #Check_status_cancelInitiated>
+              <span *ngIf="resultsdata?.status == 'cancel_initiated'; else Check_status" style="color:#f0ad4e">Cancel Initiated</span>
+            </ng-template>
+            <ng-template #Check_status>
+              <span >{{resultsdata?.status}}</span>
+            </ng-template>
+          </td>
+        <td class="">{{validDateFormat(resultsdata.created_at)}}</td>
+        <td class=""> {{validDateFormat(resultsdata.updated_at)}}</td>
+        <ng-container *AppHasRole="role.adminAccess" >
+        <td  *ngIf="['failure','success','cancelled'].includes(resultsdata?.status) && resultsdata?.platform=='windows'; else Enable_cancel_button"> 
+          <!-- <button disabled  class="btn btn-danger" style="padding:5px">Cancel</button> -->
+          <appbutton text="Cancel" btnClass="btn-small" btnType="button" [isDisabled]="true"></appbutton>
+        </td>
+      </ng-container>
+        <ng-template #Enable_cancel_button>
+          <td  *ngIf="!['failure','success','cancelled'].includes(resultsdata?.status) && resultsdata?.platform=='windows'; else Disable_cancel_button_for_linux"> 
+            <button  id={{resultsdata.command_id}} (click)="cancelRequest(resultsdata.command_id,resultsdata?.status)" class="btn btn-small-delete" style="padding:5px">Cancel</button></td>
+        </ng-template>
+        <ng-template #Disable_cancel_button_for_linux>
+          <td  *ngIf="!['windows','darwin'].includes(resultsdata?.platform);"> 
+            <!-- <button disabled  class="btn btn-danger" style="padding:5px">Cancel</button> -->
+            <appbutton text="Cancel" btnClass="btn-small" btnType="button" [isDisabled]="true"></appbutton>
+          </td>
+        </ng-template>
+      </tr>
+    </tbody>
+
+  </table>
+  <div *ngIf="results?.length === 0">
+    <span style=" text-align: center; padding-left: 300px;font-size: larger;font-weight: 600;">
+      {{errorMessage}}
+    </span>
+  </div>
+
+
+  </div>
+    </div>
+</div>
+</div>
+</div>

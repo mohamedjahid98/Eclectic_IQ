@@ -1,0 +1,294 @@
+.body-fluid {
+    height: 100px !important;
+    }
+    .align-top-alerts {
+    margin-top: -1rem;
+    }
+    .down-font {
+    font-size: medium;
+    /* color: #7a798a; */
+    color: #424246;
+    font-weight: 500;
+    }
+    .btn {
+    font-weight: 600;
+    }
+    .cust-btn {
+      border-radius: 10px;
+      font-weight: 500 !important;
+      font-size:14px;
+      padding-top:5px;
+      padding-bottom:5px;
+    }
+    .btn.btn-clean {
+    padding: .65rem 0rem;
+    border: 0;
+    background: transparent;
+    color: #667096 !important;
+    }
+    .btn.btn-clean:hover {
+    color: #184ba1 !important;
+    background: transparent;
+    }
+    .btn:focus, .btn.focus {
+    box-shadow: none !important;
+    }
+    .btn.btn-clean i {
+    color: #667096;
+    }
+    .nav-tabs.nav-tabs-line.nav.nav-tabs .nav-link, .nav-tabs.nav-tabs-line a.nav-link {
+    background: transparent;
+    color: #424246;
+    }
+    .kt-widget26__desc {
+    color: #454357 !important;
+    }
+    .alerts-color-otx:hover .kt-widget26__desc {
+    color: #78c351 !important;
+    }
+    .alerts-color-ibm:hover .kt-widget26__desc {
+    color: #91d9f6 !important;
+    }
+    .alerts-color-rule:hover .kt-widget26__desc {
+    color: #e87373 !important;
+    }
+    .alerts-color-virus:hover .kt-widget26__desc {
+    color: #3c5ff6 !important;
+    }
+    .table-inner-delete {
+    visibility:hidden;
+    }
+    .kt-portlet__body-alerts:hover .table-inner-delete {
+    visibility:visible;
+    }
+    .kt-portlet__body-alerts:hover .text-overlap {
+    width: 140px;
+    }
+    .kt-portlet__body-alerts:hover .text-overlap-text {
+    height: 50px;
+    width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    }
+    .kt-portlet__body-alerts:hover .text-overlap-img {
+    height: 30px;
+    width: 30px;
+    margin-top: -10px;
+    margin-left: -40px;
+    }
+    .kt-portlet__body-alerts:hover .severity-dash {
+    position: absolute;
+    top: 0px;
+    float: right;
+    right: -5px;
+    z-index: 50;
+    padding: 0px;
+    -webkit-transform: translate(-10px, 0);
+    -moz-transform: translate(-10px, 0);
+    -ms-transform: translate(-10px, 0);
+    -o-transform: translate(-10px, 0);
+    transform: translate(-10px, 0);
+    background: rgba(255, 255, 255, 0.4);
+    }
+    .kt-portlet__body-alerts:hover .severity-dash {
+    display: block;
+    margin: 5px;
+    background: rgba(255, 255, 255, 0.4);
+    width: 50%;
+    height: 74%;
+    text-align: left;
+    padding: 10px;
+    -webkit-box-shadow: 0 0 50px 0 rgba(82,63,105,0.15);
+    box-shadow: 0 0 50px 0 rgba(82,63,105,0.15);
+    -webkit-border-radius: 4px 0 0 4px;
+    -moz-border-radius: 40px 0 0 4px;
+    border-radius: 4px 0 0 4px;
+    /* -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -ms-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s; */
+    animation-duration: 1s;
+    animation-name: slideout;
+    }
+    @keyframes slideout {
+    from {
+    margin-right: 0;
+    /* width: 10%; */
+    }
+
+    to {
+    margin-right: 5px;
+    /* width: 100%; */
+    }
+    }
+
+    #pie-chart-platform-count, #pie-chart-query-count, #pie-chart-online-offline svg {
+    height: 100%;
+    width: 100%;
+    padding-right:5px
+    }
+
+    #divchart{
+        width:360px;
+        height:220px;
+    }
+    #divchart1{
+        position: relative;
+        margin: auto;
+        height: 230px;
+        width: 321px;
+    }
+    @media(max-width: 1450px) {
+      #divchart1{
+          width: 250px;
+      }
+    }
+    @media(max-width: 1200px) {
+      #divchart1{
+          width: 210px;
+      }
+    }
+    .kt-portlet__body-div{
+      background:#acb2bb2b;
+      padding:10px
+    }
+.nav-link{
+  border-bottom: none !important;
+}
+.kt-hoststatus{
+  width: auto;
+  margin: 20px auto;
+}
+.kt-hoststatus-widget{
+  height: 180px;
+  padding-top: 30px;
+}
+.kt-widget14__legends{
+  padding-left: 0px !important;
+}
+.kt-border-rad{
+  border-radius: 15px;
+}
+.kt-portlet-div{
+  margin-bottom:0px;
+  min-height: 76px;
+  min-width: 60px;
+}
+
+@media(max-width: 1500px) {
+  .kt-hoststatus{
+    width: 350px;
+  }
+}
+@media(max-width: 1300px) {
+  .kt-widget14{
+    padding: 18px;
+  }
+  .kt-hoststatus{
+    width: 310px;
+  }
+}
+@media(max-width: 1023px) {
+  .kt-hoststatus{
+    width: 305px;
+  }
+  .kt-portlet-div.responsive-height{
+    height: 33% !important;
+    width: 90%;
+  }
+  .kt-hoststatus.full-height{
+    height: 33% !important;
+  }
+  .apple_widget_body.full-height{
+    width: 80%;
+  }
+  .linux_widget_body.full-height{
+    width: 80%;
+  }
+  .window_widget_body.full-height{
+    width: 80%;
+  }
+  .platform-mini-card{
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+@media(max-width: 768px) {
+  .kt-hoststatus{
+    width: 222px;
+    margin: 20px auto;
+  }
+  .kt-portlet-div{
+    min-width: 60px;
+  }
+  .kt-widget14{
+    padding: 5px;
+  }
+}
+
+
+.responsive-card{
+  height: 95% !important;
+}
+.full-height{
+  height: 100%;
+}
+.platform-mini-card{
+  width: 33%; 
+  height: 80% !important;
+}
+.center-chart{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#date_rate_graph{
+  height: 85% !important;
+}
+#non_success_requests_graph{
+  height: 85% !important;
+}
+#pending_rabbitmq_tasks_graph{
+  height: 85% !important;
+}
+.kt-widget14{
+  background-color: #ffffff;
+}
+.kt-hoststatus-widget{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.kt-widget14.kt-hoststatus-widget.shadow-sm.kt-border-rad{
+  height: 100%;
+}
+.responsive-card-body{
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#pie-chart-platform-distribution-chart{
+  width: 100%;
+}
+#disk_usage-pie-chart{
+  width: 100%;
+}
+.kt-hoststatus{
+  max-width: 100%;
+}
+.kt-widget14__legends{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.kt-portlet__body.kt-portlet__body-alerts.kt-portlet__body--fluid.body-fluid.alerts-color-otx{
+  overflow-y: hidden;
+}
+.dashboard-icon{
+  padding-right: 0.15rem !important;
+}

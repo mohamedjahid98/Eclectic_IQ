@@ -1,0 +1,614 @@
+<div class="kt-grid kt-grid--hor kt-grid--root">
+  <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
+    <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
+      <!--Begin:: Modal-->
+      <div  class="modal left fade" id="myModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+           aria-hidden="true" style="display: none; position: fixed; background-color: hsla(0, 0%, 0%, 0.45)">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header" style="border: 0;">
+              <!-- <h3 class="">Alerted Entry</h3> -->
+              <span *ngIf="alert_title=='intel_data'" id="stitle">Intel Data</span>
+              <span *ngIf="alert_title=='alert_entry'" id="stitle">Alert Entry</span>
+              <h3 class=""></h3>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body kt-scroll" data-scroll="false" data-height="200" data-scrollbar-shown="true">
+              <!--begin:: Widgets/Tasks -->
+
+              <form class="kt-form" id="kt_form">
+                <div class="row">
+                  <!-- <div class="col-xl-2"></div> -->
+                  <div class="col-xl-12">
+                    <div class="kt-section kt-section--first">
+                      <div class="kt-section__body">
+                        <div class="" style="margin-left:10px" *ngIf="toggle">
+                          <!-- <json-editor class="col-md-12" style="min-height: 300px;" [options]="editorOptions"
+                                                               [data]="alerted_data_json"></json-editor> -->
+                          <div class="row col-12" style="border:1px solid #BCC2C8" *ngFor="let colAlert of alerted_data_json | keyvalue">
+                            <div class="col-lg-3 col-sm-4 col-md-3" style="color: black; padding: 10px;font-weight: 600;"> {{colAlert.key}} </div>
+                            <div class="col-lg-9 col-sm-8 col-md-9" style="border-left: 1px solid #BCC2C8;padding-top: 10px;">
+                              {{colAlert.value}} </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <!-- <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div> -->
+                  </div>
+                  <div class="col-xl-2"></div>
+                </div>
+              </form>
+              <!--end:: Widgets/Tasks -->
+            </div>
+            <div class="modal-footer align-center" style="border: 0;">
+              <button type="button" class="btn btn-small" data-dismiss="modal">Close</button>
+              <!-- <appbutton text="Close"  btnClass="btn-small-opaque" btnType="button" modalDismiss="modal" (click)="closeModal('myModal')"></appbutton> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--End:: Modal-->
+      <!-- begin:: Content -->
+      <div class="kt-portlet kt-portlet--mobile kt-portlet--responsive-mobile">
+        <div class="kt-portlet__head kt-portlet__head--lg">
+
+          <div class="kt-portlet__head-toolbar">
+            <div class="kt-portlet__head-wrapper">
+              <span class="kt-portlet__head-icon">
+                <img alt=''  src='./assets/media/icons/info-circle.svg' height="15" width="15" alt=""/>
+              </span>
+              <label class="alert-title">Alerts</label>
+            </div>
+          </div>
+          <div class="kt-portlet__head-toolbar">
+            <div class="kt-portlet__head-wrapper">
+              <!-- <a href="javascript:void(0);" (click)="goBack()" class="btn btn-clean btn-sm" data-skin="dark" data-toggle="kt-tooltip" data-placement="top" title="Back to Previous Page">
+                <i class="fas fa-chevron-left back_icon_align"></i>
+                Back
+              </a> -->
+              <div class="col-4 button-right" >
+                <!-- <button  *ngIf="events_ids.length>0" class="btn btn-success   pull-right" (click)='Get_total_alerts_based_on_alert_type(alert_data?.source)' title="Get total alerts">Reset</button> -->
+                <appbutton *ngIf="events_ids.length>0" text="Reset"  btnClass="btn-small" btnType="button" (click)='Get_total_alerts_based_on_alert_type(alert_data?.source)' ></appbutton>
+              </div>
+              <button style="display: none" id="hidden_button"></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="kt-portlet__body tbl-bg" style="padding: 0px;">
+
+          <!--begin: Datatable -->
+          <div id="div_alerts" class="alert_source_div"
+               style="display: none;padding: 15px; padding-top: 5px !important;">
+
+            <div class="kt-portlet alert_body_val" style="display: none;">
+              <div class="kt-portlet__body" style="padding: 0px; background: #f2f5f7;">
+                <div class="row mt-3 ">
+                  <div class="col-sm-12 col-md-12 col-xl-6 col-lg-6" style="padding:0;display: contents;">
+                    <div class="row" style="margin-left: 0px;">
+                      <div class="row-filter-search">
+                        <div>
+                          <div class="select-wrap dropdown-select col-sm-12 form-control date-selector margin-left">
+                            <label class="select-label">Start date: </label>
+                            <input class="form-control" placeholder="yyyy-mm-dd" [maxDate]="maxDate" name="dp" [(ngModel)]="startDate" (click)="d.toggle()"
+                              (ngModelChange)="myHandler()" ngbDatepicker #d="ngbDatepicker">
+                            <button class="btn calendar" (click)="d.toggle()" type="button"><i class="fa fa-caret-down dropdown-arrow"
+                                aria-hidden="true"></i></button>
+                          </div>
+                        </div>
+                        <div *ngIf="options">
+                          <div class="">
+                            <div class="select-wrap dropdown-select col-sm-12 form-control date-selector">
+                              <label class="select-label">End date: </label>
+                              <input class="form-control" placeholder="yyyy-mm-dd" [maxDate]="maxDate" name="dpEndDate" [(ngModel)]="endDate" (click)="dEnd.toggle()"
+                                (ngModelChange)="myHandler()" ngbDatepicker #dEnd="ngbDatepicker">
+                              <button class="btn calendar" (click)="dEnd.toggle()" type="button"><i class="fa fa-caret-down dropdown-arrow"
+                                  aria-hidden="true"></i></button>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="">
+                          <div class="select-wrap dropdown-multiselect col-sm-12 form-control">
+                            <label class="select-label">Host: </label>
+                            <angular2-multiselect class="form-control" [ngClass]="{'host-filter-disable':isHostFilter}"  #dropdownRef [formControl]="hostDefault" [data]="hostList" [(ngModel)]="hostListSelectedItems"
+                                [settings]="filterListDropdownSettings" (onSelect)="onItemSelectHost($event)" (onDeSelect)="OnItemDeSelectHost($event)"
+                                (onSelectAll)="onSelectAllHost($event)" (onDeSelectAll)="onDeSelectAllHost($event)">
+                                <img alt=''  src='./assets/media/icons/info-circle.svg' height="15" width="15" alt=""/>
+                            </angular2-multiselect>
+                        </div>
+                        </div>
+                        <div class="">
+                          <div class="select-wrap dropdown-multiselect col-sm-12 form-control">
+                            <label class="select-label">Severity: </label>
+                            <angular2-multiselect class="form-control" [formControl]="severityDefault" [data]="severityList" [(ngModel)]="severityListSelectedItems"
+                                [settings]="filterListDropdownSettings" (onSelect)="onItemSelectSeverity($event)" (onDeSelect)="OnItemDeSelectSeverity($event)"
+                                (onSelectAll)="onSelectAllSeverity($event)" (onDeSelectAll)="onDeSelectAllSeverity($event)">
+                            </angular2-multiselect>
+                        </div>
+                        </div>
+                      </div>
+                </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-xl-6 col-lg-6" style="padding:0; display: contents;">
+                      <div class="row" style="margin-left:10px">
+                        <div class="row-filter-search">
+                          <div class="">
+                            <div class="select-wrap dropdown-multiselect col-sm-12 form-control">
+                              <label class="select-label">Rule type: </label>
+                              <angular2-multiselect class="form-control" [ngClass]="{'host-filter-disable':isRuleTypeFilter}" [formControl]="ruleTypeDefault" [data]="ruleTypeList" [(ngModel)]="ruleTypeSelectedItems"
+                                  [settings]="filterListDropdownSettings" (onSelect)="onItemSelectRuleType($event)" (onDeSelect)="OnItemDeSelectRuleType($event)"
+                                  (onSelectAll)="onSelectAllRuleType($event)" (onDeSelectAll)="onDeSelectAllRuleType($event)">
+                              </angular2-multiselect>
+                          </div>
+                          </div>
+                          <div class="">
+                            <div class="select-wrap dropdown-multiselect col-sm-12 form-control">
+                              <label class="select-label">Rule name: </label>
+                              <angular2-multiselect class="form-control" [ngClass]="{'host-filter-disable':isRuleFilter}" [formControl]="ruleNameDefault" [data]="ruleNameList" [(ngModel)]="ruleNameSelectedItems"
+                                  [settings]="filterListDropdownSettings" (onSelect)="onItemSelectRuleName($event)" (onDeSelect)="OnItemDeSelectRuleName($event)"
+                                  (onSelectAll)="onSelectAllRuleName($event)" (onDeSelectAll)="onDeSelectAllRuleName($event)">
+                              </angular2-multiselect>
+                          </div>
+                          </div>
+                          <div class="">
+                            <div class="select-wrap dropdown-multiselect col-sm-12 form-control">
+                              <label class="select-label">Alert status: </label>
+                              <angular2-multiselect class="form-control" [formControl]="alertStatusDefault" [data]="alertStatusList" [(ngModel)]="alertStatusSelectedItems"
+                                  [settings]="filterListDropdownSettings" (onSelect)="onItemSelectAlertStatus($event)" (onDeSelect)="OnItemDeSelectAlertStatus($event)"
+                                  (onSelectAll)="onSelectAllAlertStatus($event)" (onDeSelectAll)="onDeSelectAllAlertStatus($event)">
+                              </angular2-multiselect>
+                          </div>
+                          </div>
+                          <div id="Search" style="margin-top: 8px;" class="row-filter-search element-right">
+                            <search (keydown.enter)="tableSearch()" (valueChange)='tableSearch()'></search>
+                          </div>
+                        </div>
+
+
+                  </div>
+                      </div>
+              </div>
+                <div style="margin-top: 10px; margin-bottom: 10px;" class="row">
+                  <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <div id="alerts_timeline">
+                    </div>
+                    <div id="errorTimeline" class="time_error">
+                      <span>Due to the number of alerts the timeline cannot be rendered.
+                        <br>
+                        <span style="text-align: center;">Choose a smaller timeframe.</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="">
+              <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-2">
+
+                </div>
+                </div>
+              <table id="alerts_table" *ngIf="all_options" datatable  [dtOptions]="all_options" [dtTrigger]="dtTrigger"
+              class="table table-hover table-checkable alerts_datatable row-border hover">
+         <thead style="background-color: #fff !important;">
+           <tr role="row" *ngIf="selectedCount > 0;">
+             <th class="chk-pad close-icon" style="text-align:center;" (click)="removeSelectedAlert()">
+                 <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+             </th>
+             <th style="color:#1F1F1F !important"> {{selectedCount}} selected </th>
+             <th></th>
+             <th></th>
+             <th></th>
+             <th></th>
+             <th></th>
+             <th></th>
+             <th style="padding-left: 0px;" (click)="multiResolveAlert(true)">
+               <i title="Resolve Alerts" class="fa fa-check-circle delete-icon"></i></th>
+           </tr>
+         <tr  role="row">
+
+           <th class="chk-pad" style="text-align:center; width: 4%;">
+            <div class="custom-control mt-2 custom-checkbox">
+              <input type="checkbox" [(ngModel)]="masterSelected" name="list_name" value="m1" (change)="checkUncheckAll()"
+               class="custom-control-input" id="masterCheck">
+              <label class="custom-control-label" for="masterCheck"></label>
+            </div>
+                    <!-- <input type="checkbox" class="mt-2" [(ngModel)]="masterSelected" name="list_name" value="m1" (change)="checkUncheckAll()"/> -->
+           </th>
+           <th style="width: 20%;">Alert</th>
+           <th style="width: 12%;">Status</th>
+           <th style="width: 12%;">Host</th>
+           <th style="width: 12%;">Severity</th>
+           <th style="width: 12%;">Created</th>
+
+           <th style="width: 16%;">
+             <!-- <span *ngIf="alertSource == 'virustotal'">Intel Data</span>
+             <span *ngIf="alertSource == 'alienvault' ">Intel Data</span>
+             <span *ngIf="alertSource == 'rule' ">Rule Name</span> -->
+             Rule Name/Intel Data
+           </th>
+           <!-- <th style="width: 8%; text-align: left; padding-left: 10px;">
+            Rule Type
+          </th> -->
+           <th style="width: 16%; padding-left: 10px;">
+             <!-- <span *ngIf="alertSource == 'rule' ">Aggregated Count</span> -->
+             Aggregated Count
+           </th>
+           <!-- <th>Alerted Entry</th> -->
+           <th class="status" style="padding-left: 7px; width: 4%;">
+            <span title="Download" (click)="download()"><i class="fa fa-download" aria-hidden="true"></i></span>
+           </th>
+         </tr>
+         </thead>
+         <tbody *ngIf="alertSourceData">
+         <tr *ngFor="let alrowdata of alertSourceData; let i = index " style="height:50px" [ngClass]="{'row-selected':checkedList.includes(alrowdata.id)}" role="row">
+          <td style="text-align: center;" *ngIf="this.checklist.length !=0">
+            <!-- <input type="checkbox" name="{{alertSource}}_checklist" [(ngModel)]="checklist[alrowdata][i].isSelected"
+              (change)="isAllSelected(alertSource,alrowdata.id)" /> -->
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" [disabled]="alrowdata.status === 'RESOLVED'" name="list_name" [(ngModel)]="checklist[i].isSelected" (change)="isAllSelected(alrowdata.id)"
+                 class="custom-control-input" id="customCheck_{{i}}">
+                <label class="custom-control-label" for="customCheck_{{i}}"></label>
+              </div>
+              <!-- <input type="checkbox" [disabled]="alrowdata.status === 'RESOLVED'" name="list_name" [(ngModel)]="checklist[i].isSelected" (change)="isAllSelected(alrowdata.id)"/> -->
+          </td>
+           <td style="text-align: left;">
+            <span *ngIf="alrowdata.source == 'rule' ">{{alrowdata.rule?.name}} {{alrowdata.id}}</span>
+            <span *ngIf="alrowdata.source != 'rule' ">{{alrowdata.source}} {{alrowdata.id}}</span>
+          </td>
+          <td style="vertical-align:middle;">
+          <div *ngIf="alrowdata.status =='RESOLVED' && alrowdata.verdict == 'TRUE POSITIVE'" class="resolved-true"> <span  class="resolved-true-label">Resolved: true</span></div>
+          <div *ngIf="alrowdata.status =='RESOLVED' && alrowdata.verdict == 'FALSE POSITIVE'" class="resolved-false"> <span  class="resolved-true-label">Resolved: false</span></div>
+         </td>
+           <td class="host-link" style="vertical-align:middle;">
+             <a (click)="toggleHostShowDiv(alrowdata.node_id)" class="active status" data-skin="dark"
+                data-toggle="kt-tooltip" data-placement="top" title="click -> Host Details"
+                style="color:#5867dd;font-weight: 600;">{{alrowdata.hostname}}</a>
+           </td>
+           <td style="vertical-align:middle;">
+             <span *ngIf="alrowdata.severity == 'CRITICAL'" class='logo-color menu-icon' style='font-weight: 400;'
+                   data-toggle='kt-tooltip' data-placement='top' title='High'><img alt=''
+                                                                                       src='./assets/media/icons/error.svg'
+                                                                                       height="25" width="25"
+                                                                                       alt=""/> High</span>
+             <span *ngIf="alrowdata.severity == 'INFO'" class='logo-color menu-icon' style='font-weight: 400;'
+                   data-toggle='kt-tooltip' data-placement='top' title='Info'><img alt=''
+                                                                                   src='./assets/media/icons/info.svg'
+                                                                                   height="25" width="25" alt=""/> Info</span>
+             <span *ngIf="alrowdata.severity == 'WARNING'" class='logo-color menu-icon' style='font-weight: 400;'
+                   data-toggle='kt-tooltip' data-placement='top' title='Medium'><img alt=''
+                                                                                      src='./assets/media/icons/warning.svg'
+                                                                                      height="25" width="25"
+                                                                                      alt=""/> Medium</span>
+             <!-- <span *ngIf="alrowdata.severity == 'LOW'" class='logo-color menu-icon' style='font-weight: 400;'
+                   data-toggle='kt-tooltip' data-placement='top' title='LOW'><img alt=''
+                                                                                  src='./assets/media/icons/info.svg'
+                                                                                  height="35" width="35"
+                                                                                  alt=""/> Low</span> -->
+
+           </td>
+           <td style="vertical-align:middle;">
+             {{validDateFormat(alrowdata["created_at"])}}
+           </td>
+
+           <td class="host-link" style="vertical-align:middle;">
+             <a *ngIf="alrowdata.source == 'rule' && alrowdata.rule?.status != 'DELETED' ;" (click)="toggleRuleShowDiv(alrowdata.rule?.id)" class="active"  data-skin="dark" data-toggle="kt-tooltip" data-placement="top" title="click -> Rule Details" style='font-weight: 600;color: #5867dd;'><code>{{alrowdata.rule?.name}}</code></a>
+             <span *ngIf="alrowdata.rule?.status == 'DELETED';" title="The rule does not exist anymore in the system it might have been deleted" class="pl-2" style='font-weight: 600;color: #B8B8B8;'>{{alrowdata.rule?.name}}</span>
+             <span *ngIf="alrowdata.source == 'virustotal'" class='logo-color menu-icon' style='font-weight: 600;cursor: pointer;color: #5867dd;' data-toggle='modal' data-target="#myModal" (click)="showdata(alrowdata.intel_data, 'intel_data')" data-placement='top' title='View VirusTotal Data'><img alt='' src='./assets/media/viewfile.svg'  height="25px" width="25px" alt="" /></span>
+             <span *ngIf=" alrowdata.source == 'alienvault'"  class='logo-color menu-icon' style='font-weight: 600;cursor: pointer;color: #5867dd;' data-toggle='modal' data-target="#myModal" (click)="showdata(alrowdata.intel_data, 'intel_data')" data-placement='top' title='View AlienVault OTX Data'><img alt='' src='./assets/media/viewfile.svg'  height="25px" width="25px" alt="" /></span>
+             <span *ngIf=" alrowdata.source == 'ioc'"> - </span>
+             <span *ngIf=" alrowdata.source == 'ibmxforce'"> - </span>
+           </td>
+           <!-- <td style="text-align: left;">
+            {{alrowdata.source | titlecase}}
+          </td> -->
+           <td style="vertical-align:middle;text-align: left;">
+             <span *ngIf="alrowdata.source == 'rule' ">{{alrowdata.aggregated_events_count}}</span>
+             <span *ngIf=" alrowdata.source == 'ioc'"> - </span>
+             <span *ngIf=" alrowdata.source == 'ibmxforce'"> - </span>
+             <span *ngIf=" alrowdata.source == 'virustotal'"> - </span>
+             <span *ngIf=" alrowdata.source == 'alienvault'"> - </span>
+           </td>
+           <!-- <td style="vertical-align:middle;">
+             <a href="javascript:void(0);" style='cursor: pointer' data-toggle='modal'
+             data-target="#myModal" data-placement='top' (click)="showdata(alrowdata.alerted_entry, 'alert_entry')" title='See Alert Entry'>
+               <i class="fas fa-file-alt resolve-circle-check"></i>
+             </a>
+           </td> -->
+           <td style="vertical-align:middle;">
+             <div *ngIf="alrowdata.status =='OPEN'" ngbDropdown class="div-center" container="body">
+               <!-- Three dots dropdown icon -->
+               <a class="status" ngbDropdownToggle id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style='width: 90px;padding-top:4px;padding-bottom:4px; z-index: 1;' >
+                 <i class="fas fa-ellipsis-v resolve-circle-check" aria-hidden="true"></i>
+               </a>
+               <div class="dropdown-menu" style="max-width: 40px !important;" ngbDropdownMenu aria-labelledby="dropdownMenuButton">
+                 <a class="dropdown-item" ngbDropdownItem (click)="toggleShowDiv(alrowdata);" title="Open alert" style="color: black;cursor:pointer;padding-top:5px !important;padding-bottom:5px !important">Open alert</a>
+                 <a class="dropdown-item" ngbDropdownItem data-toggle='modal' data-dismiss="modal" data-target="#myModal" data-placement='top'
+                 (click)="showdata(alrowdata.alerted_entry, 'alert_entry')" title="View alert entry" style="color: black;cursor:pointer;padding-top:5px !important;padding-bottom:5px !important">View alert entry</a>
+                 <a class="dropdown-item" ngbDropdownItem (click)="resolveAlert(alrowdata.id,false)" title="Resolve" style="cursor:pointer;padding-top:5px !important;padding-bottom:5px !important">Resolve</a>
+               </div>
+           </div>
+           <div *ngIf="alrowdata.status =='RESOLVED'" ngbDropdown class="div-center" container="body">
+            <a class="status" ngbDropdownToggle id="dropdownMenuButton1" data-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style='width: 90px;padding-top:4px;padding-bottom:4px' >
+              <i class="fas fa-ellipsis-v resolve-circle-check" aria-hidden="true"></i>
+            </a>
+            <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownMenuButton1">
+              <a class="dropdown-item" ngbDropdownItem data-toggle='modal' data-dismiss="modal" data-target="#myModal" data-placement='top'
+              (click)="showdataResolved(alrowdata.alerted_entry, 'alert_entry')" title="View alert entry" style="color: black;cursor:pointer;padding-top:5px !important;padding-bottom:5px !important">View alert entry</a>
+              <a class="dropdown-item" *AppHasRole="role.adminAccess" ngbDropdownItem (click)="unresolveAlert(alrowdata.id,false)" title="Unresolve" style="cursor:pointer;padding-top:5px !important;padding-bottom:5px !important">Unresolve</a>
+            </div>
+           </div>
+             <!-- <a href="javascript:void(0);" (click)="resolveAlert(alrowdata.id,alertSource)" data-skin="dark" data-toggle="kt-tooltip" data-placement="top" title="Resolve alert">
+               <i class="fa fa-check-circle resolve-circle-check" aria-hidden="true"></i>
+             </a> -->
+           </td>
+          </tr>
+        </tbody>
+        </table>
+
+        </div>
+
+        </div>
+
+          <!--end: Datatable -->
+        </div>
+        <div class="text-center"  style="font-size: 16px;font-weight: 600;">
+          {{errorMessage}}
+        </div>
+        <div class="no_data" style="display: none; padding-left: 20px;margin-top: 15px;">
+        </div>
+      </div>
+      <div class="modal" id="resolveAlertModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="display: none;z-index: 910; position: fixed; background-color: hsla(0, 0%, 0%, 0.45)">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content" style="width:650px;margin:auto" >
+            <div class="modal-header">
+              <h5 class="title kt-portlet__head-title" style="color: #646c9a;">Change Status for Run Untrusted Executable </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeResolveAlert()"></button>
+            </div>
+            <div class="modal-body kt-scroll" data-scroll="true" data-height="200" data-scrollbar-shown="true">
+              <form class="kt-form ml-4" id="kt_form" [formGroup]="resolveAlertForm" (ngSubmit)="resolveAlertSubmitForm()">
+                <div class="row" style="font-size: 11px;">
+                  <div class="col-xl-12" style="padding: 0px;">
+                    <div class="form-group row" style="margin-bottom: 10px;">
+                      <label class="col-12 col-form-label" style="color: #646c9a;">
+                        Changing the status of an alert to resolved state requires user verdict.
+                        Do you think this alert is a:
+                      </label>
+                      <div class="col-10">
+                        <div class="kt-radio-inline">
+                          <label class="kt-radio">
+                            <input type="radio" (change)="onItemChange($event.target.value)" formControlName="resolveAlert"  name="resolveAlert" value="True Positive">
+                            <label style="color: #646c9a;">True Positive</label>
+                            <span></span>
+                          </label>
+                          <label class="kt-radio">
+                            <input type="radio" (change)="onItemChange($event.target.value)" formControlName="resolveAlert"  name="resolveAlert" value="False Positive" >
+                            <label style="color: #646c9a;">False Positive</label>
+                            <span></span>
+                          </label>
+                       </div>
+                       <span class="error-msg text-danger" *ngIf="submitted && resolveAlertForm.controls['resolveAlert'].errors?.required" style="font-size: 90%">
+                        Please select any option above!
+                      </span>
+                      </div>
+                    </div>
+                    <div class="form-group row" style="color: #646c9a;">
+                      <!-- <label class="col-sm-2 col-form-label form--label">Comments</label> -->
+                      <div class="col-11">
+                        <textarea class="form-control" formControlName="comment" name="comment" placeholder="Please give us feedback on this alert. (Optional)" ></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <div class="modal-footer">
+                <!-- <button type="submit"class="btn btn-primary">Submit</button> -->
+                <appbutton text="Submit"  btnClass="btn-small-opaque" btnType="submit" modalDismiss="modal" (click)="closeModal('resolveAlertModal')"></appbutton>
+              </div>
+              </form>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="create" id="slideAlertDetail" [@flyInOutRTL]="isVisible ? true : false" [hidden]="!isVisible">
+  <div class="kt-portlet kt-portlet--last kt-portlet--responsive-mobile" id="kt_page_portlet">
+    <div class="kt-portlet__head kt-portlet__head--lg" style="padding-right: 0px;background-color: #051E39;">
+      <div class="row col-12 kt-portlet__head-label" style="padding-right: 0px;">
+        <div class="row col-12" style="padding: 0px;">
+          <div class="col-12" style="padding: 0px;">
+            <!-- <span class="kt-portlet__head-icon" title="close">
+              <i class="fa fa-times fa-1x" style="color: white;" (click)="toggleHideDiv();"></i>
+              <img alt='' src='./assets/media/icons/icon_close.svg' height='19px'
+											width='16px' />
+            </span> -->
+            <span class="kt-portlet__head-icon" title="close" style="color: white; cursor:pointer;" (click)="toggleHideDiv();">
+              <img src='./assets/media/icons/icon_close.svg' class="icon-close myicon" /></span>
+            <span class="kt-portlet__head-icon" style="padding-left: 10px;">
+              <a class='logo-color menu-icon' style='font-weight: 400;' [routerLink]="['/alerts',eventID]"
+                data-toggle='kt-tooltip' data-placement='top' title='Expand'>
+                <img src='./assets/media/icons/icon_open-new.svg' class="icon-expand myicon"  /></a>
+            </span>
+            <div *ngIf="eventStatus =='OPEN'" style="float: right;" ngbDropdown class="dropdown show">
+              <!-- Three dots dropdown icon -->
+              <a class="status" ngbDropdownToggle id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style='width: 90px;padding-top:4px;padding-bottom:4px' >
+                <img src='./assets/media/icons/icon_more.svg' class="icon-more myicon" />
+              </a>
+              <div class="dropdown-menu" style="max-width: 40px !important;" ngbDropdownMenu aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" ngbDropdownItem data-toggle='modal' data-target="#myModal" data-placement='top'
+                (click)="showdata(alerted_data_json, 'alert_entry')" style="color: black;cursor:pointer;padding-top:5px !important;padding-bottom:5px !important">View alert entry</a>
+                <a class="dropdown-item" ngbDropdownItem (click)="resolveAlert(eventID,false)" style="cursor:pointer;padding-top:5px !important;padding-bottom:5px !important">Resolve</a>
+              </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="">
+      <app-alert-data *ngIf="enableChild" data-dismiss="modal" [item]="eventID" ></app-alert-data>
+    </div>
+  </div>
+</div>
+<div class="create" id="slideHostDetail" [@flyInOutRTL]="isHostVisible ? true : false" [hidden]="!isHostVisible">
+  <div class="kt-portlet kt-portlet--last kt-portlet--responsive-mobile" id="kt_page_portlet">
+    <div class="kt-portlet__head kt-portlet__head--lg" style="padding-right: 0px;background-color: #051E39;">
+    	<div class="row col-12 kt-portlet__head-label" style="padding-right: 0px;">
+        <div class="row col-12" style="padding: 0px;">
+          <div class="col-12" style="padding: 0px;">
+            <span class="kt-portlet__head-icon" (click)="toggleHostHideDiv();">
+              <img src='./assets/media/icons/icon_close.svg' class="icon-close myicon" />
+            </span>
+            <span class="kt-portlet__head-icon" style="padding-left: 10px;">
+
+              <a class='logo-color menu-icon' style='font-weight: 400;' [routerLink]="['/hosts',host_data?.id]"
+                data-toggle='kt-tooltip' data-placement='top' title='Investigate the alert'>
+                <img src='./assets/media/icons/icon_open-new.svg' class="icon-expand myicon" /></a>
+            </span>
+            <div  style="float: right;" ngbDropdown class="dropdown show">
+              <!-- Three dots dropdown icon -->
+              <!-- <a href="javascript:void(0);" ngbDropdownToggle id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style='width: 90px;padding-top:4px;padding-bottom:4px' >
+                <i class="fas fa-ellipsis-v" aria-hidden="true" style="color: white;"></i>
+              </a> -->
+              <!-- <div class="dropdown-menu" style="max-width: 40px !important;" ngbDropdownMenu aria-labelledby="dropdownMenuButton">
+			  <ng-container *ngIf="hostData?.state == 0">
+				<a class="dropdown-item" ngbDropdownItem style="color: black;cursor:pointer;padding-top:5px !important;padding-bottom:5px !important" (click)="openModal()">View Configuration</a>
+				<a class="dropdown-item" ngbDropdownItem style="cursor:pointer;padding-top:5px !important;padding-bottom:5px !important" (click)="cpt_restart()" >Restart Agent</a>
+				<a class="dropdown-item" ngbDropdownItem style="cursor:pointer;padding-top:5px !important;padding-bottom:5px !important" (click) ="disableHost(hostData)">Delete</a>
+			</ng-container>
+			<ng-container *ngIf="hostData?.state == 1">
+				<a class="dropdown-item" ngbDropdownItem style="cursor:pointer;padding-top:5px !important;padding-bottom:5px !important" (click) ="addNodes(hostData.id)" >Restore Host</a>
+				<a class="dropdown-item" ngbDropdownItem style="cursor:pointer;padding-top:5px !important;padding-bottom:5px !important" (click) ="deleteHost(hostData.id, hostData.display_name)">Delete Host</a>
+			</ng-container>
+          </div> -->
+          </div>
+        </div>
+      </div>
+    	</div>
+  </div>
+  <div class="">
+  	<app-nodes *ngIf="enableHost" [hostData]="host_data"></app-nodes>
+ </div>
+</div>
+</div>
+<div class="create" id="slideRuleDetail" [@flyInOutRTL]="isRuleVisible ? true : false" [hidden]="!isRuleVisible">
+  <div class="kt-portlet kt-portlet--last kt-portlet--responsive-mobile" id="kt_page_portlet">
+    <div class="kt-portlet__head kt-portlet__head--lg" style="padding-right: 0px;background-color: #051E39;">
+      <div class="row col-12 kt-portlet__head-label" style="padding-right: 0px;">
+        <div class="row col-12" style="padding: 0px;">
+          <div class="col-12" style="padding: 0px;">
+            <span class="kt-portlet__head-icon" (click)="toggleRuleHideDiv()">
+              <img src='./assets/media/icons/icon_close.svg' class="icon-close myicon" />
+            </span>
+            <span class="kt-portlet__head-icon" style="padding-left: 10px;">
+
+              <!-- <a class='logo-color menu-icon' style='font-weight: 400;' [routerLink] = "['/rules',rule_data?.id,'alerts']"
+
+                data-toggle='kt-tooltip' data-placement='top' title=''><i
+                  class="fas fa-external-link-alt" style="color: white;"></i></a> -->
+            </span>
+            <div style="float: right;" ngbDropdown class="dropdown show">
+              <!-- Three dots dropdown icon -->
+              <!-- <a href="javascript:void(0);" ngbDropdownToggle id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style='width: 90px;padding-top:4px;padding-bottom:4px'  >
+                <i class="fas fa-ellipsis-v" aria-hidden="true" style="color: white;"></i>
+              </a> -->
+              <div class="dropdown-menu ngbdropdown" style="max-width: 40px !important;" ngbDropdownMenu aria-labelledby="dropdownMenuButton">
+                <!-- <a class="dropdown-item" ngbDropdownItem data-toggle='modal' data-target="#myModal" data-placement='top'
+                (click)="showdata(alerted_data_json, 'alert_entry')" style="color: black;cursor:pointer;padding-top:5px !important;padding-bottom:5px !important">View alert entry</a> -->
+                <!-- <a class="dropdown-item" ngbDropdownItem  style="cursor:pointer;padding-top:5px !important;padding-bottom:5px !important" *AppHasRole="role.adminAccess" [routerLink] = "['./',rule_data?.id,'edit']">Edit</a> -->
+              </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="">
+      <div class="kt-portlet no-mar-botom portlet-body_align__table no-shadow" id="{{rule_data?.id}}">
+        <div class="rule_body2" >
+          <div class="kt-portlet__head ph-item" style="padding: 14px 15px 3px 13px;margin-bottom: 1px;">
+            <div class="ph-col-12">
+              <div class="ph-row">
+                <div class="ph-col-6 big"></div>
+               </div>
+              </div>
+          </div>
+        </div>
+        <div class="kt-portlet__head rule_body no-border-bottom" style="display: none;">
+          <div class="kt-portlet__head-label">
+
+            <h3 class="kt-portlet__head-title txt-sze">
+              <!-- Application Shim Installation -->
+              {{rule_data?.name}}
+            </h3>
+          </div>
+        </div>
+        <div *ngIf="!isRuleFilterBtn" class="pl-25" style="margin-left: 20px;">
+          <appbutton text="See Alerts" btnClass="btn-small-opaque btn-long left-no-margin" btnType="submit" (click)="getRuleAlerts()"  ></appbutton>
+        </div>
+        <div class="kt-portlet__body rule_body rule-body-table ">
+          <table class="table table-striped- table-bordered table-hover table-checkable">
+            <tbody>
+              <tr>
+                <td class="head-table txt-sze" style="word-break: inherit;">Description</td>
+                <td class="conf-table-val">
+                          <div *ngIf="rule_data?.description  && rule_data?.description.length > 1">
+                            <div class="sql hljs desc-background_rules container" [class.show_1]="rule_data.visible_1">
+                              {{rule_data.description}}
+                            </div>
+                            <span *ngIf="rule_data.description.length > 200" style="cursor: pointer;" class="kt-link fnt-green" (click)="rule_data.visible_1 = !rule_data.visible_1">{{ rule_data.visible_1 ? 'Read less': 'Read More' }}</span>
+                          </div>
+                        </td>
+              </tr>
+
+              <tr>
+                <td class="head-table txt-sze">Alerters</td>
+                <td class="conf-table-val">
+                  {{rule_data?.alerters}}
+                </td>
+              </tr>
+              <tr>
+                <td class="head-table txt-sze">Severity</td>
+                <td class="conf-table-val">
+                  {{rule_data?.severity}}
+                </td>
+              </tr>
+              <tr>
+                <td class="head-table txt-sze">Status</td>
+                <td class="conf-table-val">
+                  <div *ngIf="rule_data?.status =='ACTIVE'">
+                  <div class="desc-background_rules"><i class="fa fa-check"></i></div>
+                  </div>
+                    <div *ngIf="rule_data?.status !='ACTIVE'">
+                  <div class="desc-background_rules"><i class="fa fa-times"></i></div>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngIf="rule_data?.type !=null">
+                <td class="head-table txt-sze">Type</td>
+                <td class="txt-sze">
+                {{rule_data?.type}}
+                </td>
+              </tr>
+              <ng-container  *ngIf = "rule_data?.type == 'MITRE'">
+              <tr>
+                <td class="head-table txt-sze">Technique id</td>
+                <td class="txt-sze">
+                {{rule_data.technique_id}}
+                </td>
+              </tr>
+              <tr>
+                <td class="head-table txt-sze">Tactics</td>
+                <td class="txt-sze">
+                    {{rule_data?.tactics}}
+                  </td>
+              </tr>
+            </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

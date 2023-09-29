@@ -1,0 +1,481 @@
+<style>
+
+  @font-face {
+  font-family: 'FontAwesome';
+  src: url('./assets/fonts/fontawesome-webfont.eot');
+  src: url('./assets/fonts/fontawesome-webfont.eot'), url('./assets/fonts/fontawesome-webfont.woff2'), url('./assets/fonts/fontawesome-webfont.woff'), url('./assets/fonts/fontawesome-webfont.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+</style>
+<!-- begin:: Content -->
+<div class="kt-grid kt-grid--hor kt-grid--root">
+  <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
+    <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper_grid">
+      <!-- begin:: Portlet -->
+      <div class="kt-portlet kt-portlet--mobile">
+        <div class="kt-portlet__head">
+          <div class="kt-portlet__head-label">
+        <span class="kt-portlet__head-icon">
+          <i class="kt-font-brand fas fa-exclamation-triangle"></i>
+        </span>
+            <h3 class="kt-portlet__head-title">
+              <span *ngIf = "alert?.source == 'rule';">{{alert?.rule.name}} {{id}}</span>
+              <span *ngIf = "alert?.source != 'rule';">{{alert?.source}} {{id}}</span>
+            </h3>
+          </div>
+          <div class="kt-portlet__head-toolbar">
+            <div class="kt-portlet__head-wrapper">
+              <!-- <a href="javascript:void(0);" (click)="goBack()" class="btn btn-clean btn-sm" data-skin="dark" data-toggle="kt-tooltip" data-placement="top" title="Back to Previous Page">
+                <i class="fas fa-chevron-left back_icon_align"></i>
+                Back
+              </a> -->
+              <!-- <appbutton (click)="goBack()" text="Back" icon="fa-chevron-left" btnClass="btn-small-light" btnType="button"></appbutton> -->
+            </div>
+          </div>
+        </div>
+        <div class="kt-portlet__body" style="padding: 0px !important;">
+         
+         
+          <!-- <input  value="{{processguid}}" id="processguids" hidden /> -->
+          
+          <div class="" style="padding-left: 15px;padding-right: 15px;">
+            <div class="kt-portlet__head-tabs">
+              <ul class="nav nav-tabs nav-tabs-line nav-tabs-line-success pb-2" role="tablist">
+                <li class="nav-item" style="padding: 5px 5px 5px 10px;"> 
+                  <a class="nav-link fnt-bg active" data-toggle="tab" href="#graph">
+                    DETAILS
+                  </a>
+                </li>
+                <li class="nav-item" style="padding: 5px 5px 5px 5px;">
+                  <a class="nav-link fnt-bg" (click)="HostStateChange()" data-toggle="tab" href="#tabular">
+                    HOST STATE
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="tab-content">
+              <!--begin::Host Events-->
+              <div class="tab-pane active" id="graph" role="tabpanel">
+                <div class="tab-content" id="graph_timeline">
+                  <!--begin::Event Timelines-->
+                  <div id="accordion" class="accordion" style="margin-bottom: 0.3rem;">
+                    <div class="">
+                      <table class="table table-striped- table-bordered table-hover table-checkable">
+                        <thead style="background-color: ghostwhite;">
+                        <th>Host</th>
+                        <th>Alerted Entry</th>
+                        <th>Severity</th>
+                        <th>Created At</th>
+                        <th>Alert Type</th>
+                        <th>Source</th>
+                        <th *ngIf = "alert?.source !== 'ioc' ">
+                          <span *ngIf = "alert?.source == 'virustotal' && alert?.source != 'rule';">Intel Data</span>
+                          <span *ngIf = "alert?.source == 'alienvault' && alert?.source != 'rule' && alert?.source != 'virustotal';">Intel Data</span>
+                          <span *ngIf = "alert?.source == 'ibmxforce' && alert?.source != 'rule' && alert?.source != 'virustotal' && alert?.source != 'alienvault';">Intel Data</span>
+                          <span *ngIf = "alert?.source == 'rule';">Rule Name</span>
+                        </th>
+                        </thead>
+                        <tbody>
+                        <tr>
+                          <td class="host-link" style="vertical-align:middle;">
+                            <a [routerLink]="['/hosts', alert?.node_id || 'all']" class="active" data-skin="dark" data-toggle="kt-tooltip" data-placement="top" title="click -> Host Details" style="color:#5867dd;font-weight: 600;">{{alert?.hostname}}</a>
+                          </td>
+                          <td >
+                            <!-- <span class='logo-color menu-icon' ><img alt='' src='./assets/media/viewfile.svg'  height="25px" width="25px" alt="" /></span> -->
+                             <a href="javascript:void(0);" style='cursor: pointer' data-toggle='modal' data-target="#myModalAlert" data-placement='top' (click)="showdata(alerted_entry, 'alert_entry')" title='See Alert Entry'>
+                                <i class="fas fa-file-alt fa-2x resolve-circle-check"></i>
+                              </a>
+                          </td>
+                          <td style="vertical-align:middle;">
+                            <span *ngIf="alert?.severity == 'CRITICAL'" class='logo-color menu-icon' style='font-weight: 400;' data-toggle='kt-tooltip' data-placement='top' title='HIGH'><img alt='' src='./assets/media/icons/error-hover.gif'  height="35" width="35" alt="" /> High</span>
+                            <span *ngIf="alert?.severity == 'INFO'" class='logo-color menu-icon' style='font-weight: 400;' data-toggle='kt-tooltip' data-placement='top' title='INFO'><img alt='' src='./assets/media/icons/info.svg'  height="35" width="35" alt="" /> Info</span>
+                            <span *ngIf="alert?.severity == 'WARNING'" class='logo-color menu-icon' style='font-weight: 400;' data-toggle='kt-tooltip' data-placement='top' title='MEDIUM'><img alt='' src='./assets/media/icons/warning.svg'  height="35" width="35" alt="" /> Medium</span>
+                            <span *ngIf="alert?.severity == 'LOW'" class='logo-color menu-icon' style='font-weight: 400;' data-toggle='kt-tooltip' data-placement='top' title='LOW'><img alt='' src='./assets/media/icons/info.svg'  height="35" width="35" alt="" /> Low</span>
+                          </td>
+                          <td style="vertical-align:middle;">{{validDateFormat(alert?.created_at)}}</td>
+                          <td style="vertical-align:middle;">{{alert?.type}}</td>
+                          <td style="vertical-align:middle;">{{alert?.source}}</td>
+                          <td style="vertical-align:middle;" *ngIf = "alert?.source !== 'ioc' ">
+                            <a *ngIf="alert?.source == 'rule'" [routerLink]="['/rules/er-rules',alert?.rule_id,'edit']" class="active"  data-skin="dark" data-toggle="kt-tooltip" data-placement="top" title="click -> Rule Details" style='font-weight: 600;color: #5867dd;'><code>{{alert?.rule.name}}</code></a>
+                            <span *ngIf="alert?.source == 'virustotal' && alert?.source != 'rule'" class='logo-color menu-icon' style='font-weight: 600;cursor: pointer;color: #5867dd;' data-toggle='modal' data-target="#myModalAlert" (click)="showdata(alert?.source_data, 'intel_data')" data-placement='top' title='View Intel Data'>View Intel Data</span>
+                            <span *ngIf="alert?.source == 'alienvault' && alert?.source != 'rule' && alert?.source != 'virustotal'" class='logo-color menu-icon' style='font-weight: 600;cursor: pointer;color: #5867dd;' data-toggle='modal' data-target="#myModalAlert" (click)="showdata(alert?.source_data, 'intel_data')" data-placement='top' title='View Intel Data'>View Intel Data</span>
+                            <span *ngIf="alert?.source == 'ibmxforce' && alert?.source != 'rule' && alert?.source != 'virustotal' && alert?.source != 'alienvault'" class='logo-color menu-icon' style='font-weight: 600;cursor: pointer;color: #5867dd;' data-toggle='modal' data-target="#myModalAlert" (click)="showdata(alert?.source_data, 'intel_data')" data-placement='top' title='View Intel Data'>View Intel Data</span>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </table>
+                      <!-- <div class="card-header" data-skin="dark" data-toggle="tooltip" data-placement="top" title="Event Timelines">
+                        <div class="card-link text_change collapsible" data-toggle="collapse" href="#collapseOne">
+                          Event Timelines
+                        </div>
+                      </div> -->
+                     <div class="card-header collapsed" id="timeline_collapse" data-toggle="collapse" href="#collapseOne" style="cursor: pointer;">
+                        <a class="card-title" > Event Timelines </a>
+                        </div>
+                      <div id="collapseOne" class="collapse" data-parent="#accordion">
+                        <h4 class=" placeholder_event" style="margin-left: 3%;margin-top:2%;"> Loading event timeline...<span class=" spinner-border" role="status" style="color: #3498db;" aria-hidden="true"></span></h4>
+                        <h3 style="display: none;margin: 10px;" id="timeline_hidden_text">Timeline not applicable for this alert</h3>
+                        <div id="event_timeline" class="card-body" style="display: none;">
+                          <div class="row">
+                            <!-- <div class="" style="width: 800px"> -->
+                            <div class="col-sm-12" style="padding: 25px;" [ngClass]="isDetailPaneActive? 'col-md-12 col-lg-12' : 'col-md-8 col-lg-8' ">
+                              <!-- <pre>{{selectedEventsArray}}</pre> -->
+                              <div class="">
+                                <div class="row">
+                                  <div class="col-sm-12 col-md-12">
+                                    <form class="event-filters">
+                                      <div class="form-group separator-line" style="width: 280px">
+                                        <label for="events" style="margin-right: 5px;">Events</label>
+                                        <select class="" id="timeline-selectpicker" data-live-search="true" multiple style="width: 250px"></select>
+                                      </div>
+                                      <div class="form-group separator-line" style="width: 320px">
+                                        <label style="margin-right: 5px;">Search: </label>
+                                        <input type="" id="global-search" class="selectpicker" placeholder="Search for an attribute of the event" aria-controls="response_table" style="width: 250px">
+                                      </div>
+                                      <div class="form-group">
+                                        <button class="btn btn-small-opaque btn-long" id="csv_button" onclick="saveFile()" type="button">Export</button>
+                                        <!-- <appbutton text="Export as Excel" btnClass="btn-small-opaque" btnType="button" (click)="saveFile()"></appbutton> -->
+                                        <table id="csv_data" style="display:none"></table>
+                                      </div>
+                                    </form>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="">
+                                <div id="pf-timeline" style="padding-left:15px">
+
+                                </div>
+  `
+                                <!-- <a class="showDateTime">fsdfsdf </a> -->
+                                <div class="showDateTime" style="text-align: center; color: black; padding-left: 130px;">
+                                  <a style="font-size: 13px; font-weight: bold; color: #45455b;"> Time of alerting event : </a>
+                                  {{ alert_time }}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-12 " style="padding: 10px;" [ngClass]="isDetailPaneActive? 'col-md-12 col-lg-12' : 'col-md-4 col-lg-4' ">
+                              <div style="text-align: center; margin-top: 6px;">
+                                <i class="drawline2" style="left: 20px;"></i>
+                                <i class="fa fa-info-circle nodeinfo"> Event info</i>
+                                <i class="drawline2" style="right: 20px;"></i>
+                              </div>
+                              <div id="table_datatable">
+                                <table DataTable id="pf-timeline-data" class="display" style="margin-top: 3px !important">
+                                  <thead>
+                                  <tr style="text-align: center;">
+                                    <th></th>
+                                  </tr>
+                                  </thead>
+                                  <tbody id="eventsData"></tbody>
+                                  <!-- <div class="" id="accordion_event" style="display: contents;">
+                                    <tbody id="eventsData"></tbody>
+                                  </div> -->
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--end::Event Timelines-->
+                </div>
+                <div class="tab-content" id="graph_tree">
+                  <!--begin::Process Analysis-->
+                  <div id="accordion1" class="accordion" >
+                    <div class="" >
+                      <!-- <div class="card-header" data-skin="dark" data-toggle="tooltip" data-placement="top" title="Process Analysis">
+                        <div class="card-link text_change collapsible2 node" data-toggle="collapse" href="#collapseTwo">
+                          Process Analysis
+                        </div>
+                      </div> -->
+                      <div class="card-header collapsed"  data-toggle="collapse" href="#collapseTwo" style="cursor: pointer;">
+                        <a class="card-title"> Process Analysis </a>
+                      </div>
+
+                      <div id="collapseTwo" class="collapse" data-parent="#accordion1">
+                        <h4 class=" placeholder_event_Process_analysis" style="margin-left: 3%;margin-top:2%;"> Loading process analysis...<span class=" spinner-border" role="status" style="color: #3498db;" aria-hidden="true"></span></h4>
+                        <h3 style="display: none;margin: 10px;" id="process_analysis_hidden_text">Process analysis not applicable </h3>
+                        <div id="process_analysis" class="card-body" style="display: none;">
+                          <div class="row">
+                            <div class="col-md-8">
+                              <div id="d3-graph-2" style="overflow: auto"></div>
+                            </div>
+                            <div class="col-md-4" style="padding: 0px;">
+                              <div style="text-align: center; margin-top: 6px;">
+                                <i class="drawline2" style="left: 20px;"></i>
+                                <i class="fa fa-info-circle nodeinfo"> Event info</i>
+                                <i class="drawline2" style="right: 20px;"></i>
+                              </div>
+                              <table id="pf-timeline-data" class="display" style="margin-top: 3px !important">
+                                <thead>
+                                <tr style="text-align: center;">
+                                  <th></th>
+                                </tr>
+                                </thead>
+                                <div class="" id="accordion2" style="">
+                                  <tbody id="eventsData_process"></tbody>
+                                </div>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--end::Process Analysis-->
+                </div>
+                <!--begin::Alerts aggregation-->
+                <div *ngIf="alert?.source == 'rule'" class="tab-content">
+                  <div id="accordion_Aggregated_data" class="accordion" style="margin-top: 0.3rem;" >
+                    <div class="" >
+                      <div class="card-header collapsed"  data-toggle="collapse" href="#collapseThree" style="cursor: pointer;">
+                        <a class="card-title">Other Alerts in the aggregated cluster</a>
+                      </div>
+                      <div id="collapseThree" class="collapse" data-parent="#accordion_Aggregated_data">
+                        <h4 class="aggregation_loader" style="margin-left: 3%;margin-top:2%;"> Loading aggregated data...<span class=" spinner-border" role="status" style="color: #3498db;" aria-hidden="true"></span></h4>
+                          <div class="kt-portlet__body">
+                            <!-- <ul  class="nav nav-pills nav-fill nav-background" role="tablist">
+                              <li *ngFor="let aggregated_data_values of aggregated_data | keyvalue;" class="nav-item">
+                                <a class="nav-link_aggregated_query_name" data-toggle="tab" (click)="alerts_aggregated_data(aggregated_data_values.key)"[ngClass]="{'active': alert_selectedItem == aggregated_data_values.key}" style="cursor: pointer;">{{ aggregated_data_values.key}}</a>
+                              </li>
+                            </ul> -->
+                            <ul  class="nav nav-pills nav-fill nav-wd" role="tablist" *ngIf="aggregate_tab.length <= 1">
+                              <li *ngFor="let aggregated_data_values of aggregated_data | keyvalue;" class="nav-item">
+                                <a class="nav-link fnt-bg" data-toggle="tab" (click)="Get_aggregated_data_filter_click(aggregated_data_values.key)"[ngClass]="{'active': alert_selectedItem == aggregated_data_values.key}" style="cursor: pointer;">{{ aggregated_data_values.key}}</a>
+                              </li>
+                            </ul>
+                            <ul  class="nav nav-pills nav-fill" role="tablist" *ngIf="aggregate_tab.length > 1">
+                              <li *ngFor="let aggregated_data_values of aggregated_data | keyvalue;" class="nav-item">
+                                <a class="nav-link fnt-bg" data-toggle="tab" (click)="Get_aggregated_data_filter_click(aggregated_data_values.key)"[ngClass]="{'active': alert_selectedItem == aggregated_data_values.key}" style="cursor: pointer;">{{ aggregated_data_values.key}}</a>
+                              </li>
+                            </ul>
+                              <div id="alerts_aggretated_table">
+                              </div>
+                              <table datatable [dtOptions]="aggregatedOptions" [dtTrigger]="dtTrigger"  class="table table-bordered table-hover table-checkable ">
+                                   <thead>
+                                       <tr *ngIf="aggregate_tab?.length > 0">
+                                         <th>{{alert_selectedItem}} data</th>
+                                       </tr>
+                                   </thead>
+                                   <tbody>
+                                       <tr *ngFor="let aggregated_value of aggregatelist" style="font-size: 13px; font-family:Roboto; font-weight: 600;">
+                                         <td class="cell-breakWord">
+                                           <div (click)="ele.class = ele.class == 'showChildren' ? '' : 'showChildren'" [ngClass]="{ hideChildren : ele.class !== 'showChildren' }" #ele >
+                                             <font color='#16ace3'>
+                                                <div >
+                                                  <div class="sql hljs desc-background_rules px-0 mx-0" [class.show_1]="aggregated_value.visible_1" style="cursor: pointer;">
+                                                     {{myjson.stringify(aggregated_value.columns)}}
+                                                   </div>
+
+                                                </div>
+                                             </font>
+                                             <div (click)="action($event);false" >
+                                               <div class="col-10"></div>
+                                               <th >
+                                                  <dt *ngFor="let subhostdata of aggregated_value.columns | keyvalue">
+                                                    <dl  style="word-break: break-word;padding-left: 45px;" >
+                                                       {{subhostdata.key}}
+                                                       {{":"}}
+                                                     {{subhostdata.value}}
+                                                  </dl>
+                                                </dt>
+                                             </th>
+                                            </div>
+                                           </div>
+                                         </td>
+
+                                      </tr>
+                                   </tbody>
+                               </table>
+                               <div *ngIf="aggregatelist?.length === 0" class="text-center">
+                                 <span style="font-size: larger;font-weight: 600;">
+                                   {{errorMessage}}
+                                 </span>
+                               </div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--end::Alerts aggregation-->
+              </div>
+              <!--end::Host Events-->
+              <!--begin::Host State-->
+              <div class="tab-pane" id="tabular" role="tabpanel">
+                <!--begin::System Data-->
+                <div class="kt-portlet__body">
+                  <h4 class="host_state_loader" style="margin-left: 3%;margin-top:2%;"> Loading Host State Data..<span class=" spinner-border" role="status" style="color: #3498db;" aria-hidden="true"></span></h4>
+                  <ul *ngIf="host_state_data?.length>0" class="nav nav-pills nav-fill nav-background" role="tablist">
+                    <li *ngFor="let states of host_state_data" class="nav-item">
+                      <a class="nav-link fnt-bg" data-toggle="tab" (click)="host_state_change(states)"[ngClass]="{'active': selectedItem == states}"
+                         href="#sc_{{states}}">{{ states}}</a>
+                    </li>
+                  </ul>
+                  <!-- <div class="tab-content">
+                    <div class="sc_{{ hosttable_name }}">
+                      <div id="results" ></div>
+
+                    </div>
+
+                  </div> -->
+                  <div>
+                    <button *ngIf="host_state_data?.length>0" class="btn btn-small-opaque"  (click)="download_csv_file()" tabindex="0" aria-controls="1per_query_perf_table" type="button">
+                      <span>CSV</span>
+                    </button>
+                    <h4 class="hostLoader Host-spinner" > Loading Data..<span class=" spinner-border" role="status" style="color: #3498db;" aria-hidden="true"></span></h4>
+                    <div id="results_md5">
+
+                    </div>
+                  </div>
+                  <div *ngIf="host_state_data?.length==0"class="text-center nav-background" style="font-size: 14px;">No Data Found</div>
+                </div>
+                <!--end::System Data-->
+
+              </div>
+              <!--end::Host State-->
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <!-- end:: Portlet -->
+    </div>
+  </div>
+</div>
+<div class="live-qry1 live-qry" *ngIf="noteShow">
+  <ul class="live-qry"   (click)="toggleShowDiv()" id="drag_button1">
+    <li class="">
+      <a class="">
+        <i class="fa fa-pencil-square-o"></i>
+        <span>Notes</span>
+      </a>
+    </li>
+  </ul>
+</div>
+<div class="create" id="slideHistory" *ngIf="!noteShow" [@slideInOut]="animationState">
+  <div class="kt-grid kt-grid--hor kt-grid--root">
+    <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
+      <div style="padding: 0;" class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper " id="kt_wrapper">
+      <!--begin::Portlet-->
+      <div class="kt-portlet kt-portlet--last kt-portlet--responsive-mobile" id="kt_page_portlet">
+        <div class="kt-portlet__head kt-portlet__head--lg" style="padding-right: 0px;">
+          <div class="row col-12 kt-portlet__head-label" style="padding-right: 0px;">
+            <div class="row col-12" style="padding: 0px;">
+              <div class="col-1" style="padding: 0px;">
+                <span class="kt-portlet__head-icon">
+                  <i class="fas fa-edit"></i>
+                </span>
+              </div>
+              <div class="col-10" style="margin-top: 5px;">
+                <h3 class="kt-portlet__head-title">
+                  Notes
+                </h3>
+              </div>
+              <div class="col-1 text-right" style="padding-right: 0px;">
+                <span (click)="toggleShowDiv()" class="text-right" style="float: right;">
+                  <i class="far fa-times-circle"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="kt-portlet__body" style="padding: 10px !important;">
+          <div class="col-11" style="padding: 10px;">
+            <textarea class="form-control" style="width: 350px;" [(ngModel)]="noteValue" name="alert_notes" placeholder="Add notes..." (click)="noteException = true" ></textarea>
+          </div>
+          <div style="padding-left: 10px; padding-bottom: 10px;" *ngIf='noteException' >
+            <!-- <button style="margin-right: 20px;" class="btn btn-primary" (click)="addNotes()">
+              <span>Save</span>
+            </button>
+            <button type="reset" style="margin-left: 5px;" class="btn btn-secondary" (click)="clearInput()">Cancel</button> -->
+
+            <appbutton text="Save" btnClass="btn-small" btnType="button" (click)="addNotes()"></appbutton>
+            <appbutton text="Cancel" btnClass="btn-small-light" btnType="reset" (click)="clearInput()"></appbutton>
+          </div>
+          <div *ngIf="notes_data?.length > 0 && loadhistoryNotes" class="col-12 text-center" style="margin-bottom: 10px;">
+            <a style="align-items: center;" (click)="onNoteHistory();">
+              <i style="font-size:12px;cursor: pointer;" title="View history of notes" class="fas fa-history"> Load earlier messages</i>
+            </a>
+          </div>
+          <div class="row" style="max-height:200px;overflow-y: scroll;overflow-x:hidden" *ngIf="notes_data?.length != 0 && historyNotes">
+            <!--begin: Datatable -->
+            <div class="col-md-12 row" style="margin-left: 2px; margin-bottom: 5px;" *ngFor="let note of notes_data; let i=index">
+              <!-- <div class="col-11" style="border: 1px solid grey; border-radius: 2px;"> -->
+                <div class="row col-md-12" style="padding-right: 0px;margin-right: 0px;">
+                  <div class="col-10">
+                    <span style="font-weight:bold; margin-right:10px; margin-left: 5px;">{{ note.user | titlecase }}</span> <span style="font-size: 11px;color: grey;" title="{{note.noteUpdate | date: 'yyyy-MM-dd hh:mm:ss'}}">{{ note.noteUpdate | dateAgo}}</span>
+                  </div>
+                  <div  class="col-2" *ngIf="note.isloggedInUser">
+                    <a (click)="editNote_Dummy('editNote' + note.id,i,note.notes)">
+                      <i style="font-size:12px;cursor: pointer; margin-right: 10px;" title="Edit Note" class="fas fa-pen"></i>
+                    </a>
+                    <a (click)="deleteNote(note.id)">
+                      <i style="font-size:12px;cursor: pointer;" title="Delete Note" class="far fa-trash-alt"></i>
+                    </a>
+                  </div>
+                </div>
+                <!-- <div class="col-md-9"><a></a></div> -->
+                <div class="col-md-12" *ngIf="!siteException[i]" [attr.id]="'editNote' + note.id" style="margin-left: 5px"><a>{{ note.notes }}</a></div>
+                <textarea *ngIf="siteException[i]" style="width: 350px; margin-left: 2px; margin-bottom: 6px; margin-top: 5px;;" class="form-control" [(ngModel)]="noteValueEdit" name="alert_notes1" ></textarea>
+                <div class="col-md-12"  style="margin-bottom: 10px;margin-left: 5px">
+
+                  <button *ngIf="siteException[i]" (click)="editNote(note.id,noteValueEdit,i)"  value="{{note.notes}}" class="btn btn-info btn-sm"
+                    style="font-size: 11px; margin-right: 10px;">Save</button>
+                    <button *ngIf="siteException[i]" (click)="cancelInput(i)"  value="{{note.notes}}" class="btn btn-info btn-sm"
+                    style="font-size: 11px; margin-right: 10px;">Cancel</button>
+                </div>
+            </div>
+            <!--end: Datatable -->
+            </div>
+        </div>
+      </div>
+      <!--end::Portlet-->
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- end:: Content -->
+ <!--Begin:: Modal-->
+ <div class="modal left fade" id="myModalAlert" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="display: none; position: fixed; background-color: hsla(0, 0%, 0%, 0.45)">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 *ngIf="alert_title=='intel_data'" id="stitle">Intel Data</h3>
+        <h3 *ngIf="alert_title=='alert_entry'" id="stitle">Alerted Entry</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body kt-scroll" data-scroll="false" data-height="200" data-scrollbar-shown="true">
+        <!--begin:: Widgets/Tasks -->
+        <form class="kt-form" id="kt_form">
+          <div class="row">
+            <!-- <div class="col-xl-2"></div> -->
+            <div class="col-xl-12">
+              <div class="kt-section kt-section--first">
+                <div class="kt-section__body">
+                  <div class="" style="margin-left:10px" *ngIf="toggle">
+                    <!-- <json-editor class="col-md-12" style="min-height: 300px;" [options]="editorOptions"
+                                                         [data]="alerted_data_json"></json-editor> -->
+                    <div class="row col-12" style="border:1px solid #BCC2C8" *ngFor="let colAlert of alert_data_json | keyvalue">
+                      <div class="col-lg-3 col-sm-4 col-md-3" style="color: black; padding: 10px;font-weight: 600;"> {{colAlert.key}} </div>
+                      <div class="col-lg-9 col-sm-8 col-md-9" style="border-left: 1px solid #BCC2C8;padding-top: 10px;">
+                        {{colAlert.value}} </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-2"></div>
+          </div>
+        </form>
+        <!--end:: Widgets/Tasks -->
+      </div>
+      <div class="modal-footer align-center">
+        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--End:: Modal-->

@@ -1,0 +1,67 @@
+@import "~node_modules/placeholder-loading/src/scss/placeholder-loading.scss";
+$ph-bg: #fff !default;
+$ph-color: #ced4da !default;
+$ph-border-radius: 2px !default;
+
+$ph-gutter: 30px !default;
+$ph-spacer: 15px !default;
+
+$ph-avatar-border-radius: 50% !default;
+
+$ph-animation-duration: .8s !default;
+
+.kt-portlet__head-wrapper{
+    height: 100%;
+}
+.kt-portlet__head-tabs {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+.nav-header-tabs{
+    height: 100%;
+    color: #22776e;
+}
+
+.kt-portlet__head-tabs>.nav-tabs {
+    margin: 0 0 0 0;
+    border-bottom: 0px;
+    height: 100%;
+    color: #22776e;
+}
+
+.kt-portlet__head-tabs>.nav-tabs>.nav-item {
+    margin: 0 0 0 0;
+}
+
+div > .nav-link:first-child {
+    border-left: 1px solid #e8e8e8;
+    border-right: 1px solid #e8e8e8;
+}
+.nav-header-tabs>.nav-link.nav-link.active:first-child{
+    border-left: 1px solid #e8e8e8;
+    border-right: 1px solid #e8e8e8;
+}
+div >.nav-link {
+    border-right: 1px solid #e8e8e8;
+    padding: 12px;
+    align-items: center;
+    height: 100%;
+    display: flex;
+}
+.nav-tabs.nav-tabs-line.nav-tabs-line-success.nav.nav-tabs .nav-link:hover, .nav-tabs.nav-tabs-line.nav-tabs-line-success.nav.nav-tabs .nav-link.active, .nav-tabs.nav-tabs-line.nav-tabs-line-success a.nav-link:hover, .nav-tabs.nav-tabs-line.nav-tabs-line-success a.nav-link.active{
+    border-bottom: none !important;
+    box-shadow: inset 0px -4px 0px #22776E;
+    color: #22776e;
+}
+.nav-header-tabs>.nav-link{
+    color: #22776E;
+}
+.nav-link.nav-link-active{
+
+    color: #22776E !important;
+}
+.myicon {
+    display: inline-block;
+    filter:  brightness(0) invert(1);
+}

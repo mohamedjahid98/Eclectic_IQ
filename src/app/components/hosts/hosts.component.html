@@ -1,0 +1,370 @@
+<link rel="stylesheet" href="https://mbenford.github.io/ngTagsInput/css/ng-tags-input.min.css" />
+<div class="kt-grid kt-grid--hor kt-grid--root">
+	<div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
+		<div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
+			<!-- begin:: Content -->
+
+			<div class="kt-portlet kt-portlet--mobile kt-portlet--responsive-mobile" style="margin-bottom: 0px;">
+				<div class="kt-portlet__head">
+
+					<a class="kt-portlet__head-anchor" [routerLink]="['/hosts']">
+						<div class="kt-portlet__head-label" (click)="reloadCurrentPage()">
+							<span class="kt-portlet__head-icon">
+								<i class="kt-font-brand fa fa-desktop "></i>
+							</span>
+							<h3 class="kt-portlet__head-title">
+								Hosts
+							</h3>
+						</div>
+					</a>
+
+					<!-- Modal Begins -->
+					<div class="modal" id="myModal" tabindex="-1" role="dialog"
+						aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+						<div class="modal-dialog modal-lg" role="document">
+							<div class="modal-content modal-width" style=''>
+								<div class="modal-header">
+									<!-- <h3 class="">Alerted Entry</h3> -->
+									<span id="stitle">Configuration</span>
+									<h3 class=""></h3>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"
+										(click)="closeModal('myModal')"></button>
+
+								</div>
+								<div class="modal-body kt-scroll" data-scroll="false" data-height="200"
+									data-scrollbar-shown="true">
+									<!--begin:: Widgets/Tasks -->
+
+									<form class="kt-form" id="kt_form">
+										<div class="row">
+											<!-- <div class="col-xl-2"></div> -->
+											<div class="col-xl-12">
+												<div class="kt-section kt-section--first">
+													<div class="kt-section__body">
+														<div class="row mb-3">
+															<label class="col-6 col-form-label lbl-wt">Assigned Config :
+																{{additionalConfigData}}</label>
+															<div *AppHasRole="role.adminAccess"
+																class="col-6 assignedConfig">
+																<dropdown label="" label="Config: "
+																	[options]="configListDropdownList"
+																	[formControl]="configSelectControl"
+																	(change)="onItemSelect_config($event.target.value, $event.target.options[$event.target.selectedIndex].text)"
+																	[(ngModel)]="configListSelectedItem"></dropdown>
+																<ng-container *AppHasRole="role.adminAccess">
+																	<appbutton text="Assign config"
+																		btnClass="btn-small btn-long" btnType="submit"
+																		(click)="Assign_config()"
+																		(click)="closeModal('myModal')"></appbutton>
+																</ng-container>
+															</div>
+															<!-- <button *AppHasRole="role.adminAccess" type="submit" class="btn btn-primary col-2" (click)="Assign_config()" data-dismiss="modal">Assign config</button> -->
+
+														</div>
+														<div class="" *ngIf="toggle">
+															<json-editor [options]="editorOptions"
+																[data]="alertedData_json"></json-editor>
+														</div>
+													</div>
+
+												</div>
+												<!-- <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div> -->
+											</div>
+											<div class="col-xl-2"></div>
+										</div>
+									</form>
+									<!--end:: Widgets/Tasks -->
+								</div>
+								<div class="modal-footer align-center">
+									<!-- <button type="button" (click)="close()" class="btn btn-outline-secondary" data-dismiss="modal">Close</button> -->
+									<appbutton text="Close" btnClass="btn-small-opaque" btnType="button"
+										(click)="closeModal('myModal')"></appbutton>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Modal Ends -->
+
+					<div class="kt-portlet__head-toolbar">
+						<div class="kt-portlet__head-wrapper">
+							<div class="kt-portlet__head-tabs">
+								<ul class="nav nav-tabs nav-tabs-line nav-tabs-line-success" role="tablist">
+									<li class="nav-item">
+										<a class="nav-link active" id="windows" style="cursor: pointer;"
+											data-toggle="tab" (click)="setStateFilter('Active')" (click)="setActiveTab('Active')" role="tab">Active</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" id="linux" style="cursor: pointer;" data-toggle="tab"
+											(click)="setStateFilter('Removed Hosts')" (click)="setActiveTab('Archived')" role="tab">Archived</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="container" style="display:none;"></div>
+				<div class="kt-portlet__body tbl-bg">
+					<div class="row">
+						<div class="col-md-6 row-filter-search">
+							<dropdown label="" label="Operating System: " [options]="platformOptions"
+								[formControl]="platformSelectControl"
+								(change)="getByFilterId(selectedState,selectedStatus,$event.target.value)"
+								[(ngModel)]="selectedPlatform"></dropdown>
+								<dropdown *ngIf="this.selectedState != 1" label="" label="Host Status: "
+								[options]="stateOptions" [formControl]="stateSelectControl"
+								(change)="setStateFilter($event.target.value)" [(ngModel)]="selectedStatusFilter"></dropdown>
+						</div>
+						<div id="Search" class="col-md-6 row-filter-search element-right">
+							<search (keyup.enter)="tableSearch()" (valueChange)='tableSearch()'></search>
+						</div>
+
+					</div>
+					<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+						class="table table-hover table-checkable row-border hover" id="host_table">
+						<thead style="background-color: #fff;">
+							<tr role="row" *ngIf="selectedCount > 0;">
+								<th class="chk-pad close-icon" (click)="removeSelectedHost()">
+									<i class="fa fa-times fa-lg" aria-hidden="true"></i>
+								</th>
+								<th style="color:#1F1F1F !important"> {{selectList.length}} selected </th>
+								<th></th>
+								<th></th>
+								<th></th>
+								<th></th>
+								<th *AppHasRole="role.adminAccess"></th>
+								<th *ngIf="activeTab == 'Active'">
+									<div *AppHasRole="role.adminAccess">
+										<i title="Remove Host" (click)="disableBulkHost()"
+											class="fa fa fa-trash-alt delete-icon">
+										</i>
+									</div>
+								</th>
+								<th *ngIf="activeTab == 'Archived'">
+									<div *AppHasRole="role.adminAccess">
+										<i title="Remove Host" (click)="deleteBulkHost()"
+											class="fa fa fa-trash-alt delete-icon">
+										</i>
+									</div>
+								</th>
+							</tr>
+							<tr role="row">
+								<th class="chk-pad">
+										<div class="custom-control mt-2 custom-checkbox">  
+											<input type="checkbox" [(ngModel)]="masterSelected" (change)="checkUncheckAll()"
+											 class="custom-control-input" id="masterCheck">  
+											<label class="custom-control-label" for="masterCheck"></label>  
+										</div>
+								</th>
+								<th style="min-width: 10%">Host Name</th>
+								<th style="min-width: 10%">Status</th>
+								<th style="min-width: 10%">Health</th>
+								<th style="min-width: 25%">Operating System</th>
+								<th style="min-width: 10%">IP Address</th>
+								<th *AppHasRole="role.adminAccess" class="dt-justify" style="min-width: 30%" rowspan="1"
+									colspan="1">Tags</th>
+								<th *AppHasRole="role.userAccess" class="dt-justify" style="min-width: 5%" rowspan="1"
+									colspan="1">Tags</th>
+								<th style="min-width: 20px" *AppHasRole="role.adminAccess" class="download-header">
+									<i class="fa fa-solid fa-download download-icon" (click)="download()"></i>
+								</th>
+							</tr>
+
+						</thead>
+						<tbody>
+							<tr>
+
+							<tr>
+							<tr *ngFor="let hostdata of hostmainvalue_data; let i = index "
+								[ngClass]="{'row-selected':selectList.includes(hostdata.id),'row-opened':selectOpenedList.includes(hostdata.id)}"
+								role="row">
+								<!-- <ng-container *ngIf="hostdata.state != 1 || (selectedTab == 2 && hostdata.state == 1)"> -->
+								<td class="chk-pad">
+									<div class="custom-control custom-checkbox">  
+										<input type="checkbox" [(ngModel)]="checklist[i].isSelected" (change)="isAllSelected(hostdata.id)"
+										 class="custom-control-input" id="customCheck_{{i}}">  
+										<label class="custom-control-label" for="customCheck_{{i}}"></label>  
+									</div>
+								</td>
+								<td class="host-link">
+									<a (click)="setState(hostdata.state)" (click)="fetchData(hostdata.id)"
+										(click)="toggleShowDiv(hostdata)" class="active" data-skin="dark"
+										data-toggle="kt-tooltip" data-placement="top"
+										title="Click -> Host Details">{{hostdata.display_name}}</a>
+								</td>
+								<td *ngIf="hostdata.is_active == true && hostdata.state == 0">
+									<i id="{{hostdata.host_identifier}}_online" class="fa fa-check-circle onlinehost"
+										data-toggle="kt-tooltip" title="Status Online"></i>
+									<sup><i id="{{hostdata.host_identifier}}"
+											class="fas fa-exclamation hide clr-red"></i></sup>
+								</td>
+								<td *ngIf="hostdata.is_active ==false && hostdata.state == 0"><i
+										class="fa fa-check-circle" data-toggle="kt-tooltip" title="Status Offline"
+										style="color: #8e8e93; margin-left: 15px;"></i>
+								</td>
+								<td *ngIf="hostdata.state == 1">
+									<i id="{{hostdata.host_identifier}}_removed" class="fa fa-check-circle removedhost"
+										data-toggle="kt-tooltip" title="Removed Host"></i>
+								</td>
+								<td *ngIf="hostdata.alerts_count !=0 ;"><kbd data-toggle="tooltip"
+										title="Unresolved Alerts"
+										style="background-color: orange;border-radius: 15%;margin-left: 10px;"><strong>{{hostdata.alerts_count}}</strong></kbd>
+								</td>
+								<td *ngIf="hostdata.alerts_count ==0 ;"><i class="fa fa-check-circle"
+										data-toggle="kt-tooltip" title="No Alerts"
+										style="color: green;margin-left: 15px;margin-top: 8px;"></i></td>
+
+								<td>
+									<span *ngIf="hostdata.os_info.platform == 'windows'" class='logo-color menu-icon'
+										style='font-weight: 400;'>
+										<img alt='' src='./assets/media/logo/windows_icon.svg' height='19px'
+											width='16px' />
+										<span>&ensp;{{hostdata.os_info.name}}</span>
+									</span>
+									<span *ngIf="hostdata.os_info.platform == 'darwin'" class='logo-color menu-icon'
+										style='font-weight: 400;'>
+										<i class='fab fa-apple' style='font-size: 18px; color: #999999;'></i>
+										<span>&ensp;{{hostdata.os_info.name}}</span>
+									</span>
+									<span *ngIf="hostdata.os_info.name == 'windows'" class='logo-color menu-icon'
+										style='font-weight: 400;'>
+										<img alt='' src='./assets/media/logo/windows.svg' height='19px' width='16px' />
+										<span>&ensp;{{hostdata.os_info.name}}</span>
+									</span>
+									<span *ngIf="!['windows','darwin'].includes(hostdata.os_info.platform)"
+										class='logo-color menu-icon' style='font-weight: 400;'>
+										<img alt='' src='./assets/media/logo/linux_icon.svg' height='19px'
+											width='16px' />
+										<span>&ensp;{{hostdata.os_info.name}}</span>
+									</span>
+								</td>
+								<td>
+									<div style="color: #25282a" class="text-wrap width">{{hostdata.last_ip}}</div>
+								</td>
+								<td *AppHasRole="role.adminAccess" class="dt-justify">
+									<tag-input [theme]="'foundation-theme'" [(ngModel)]='hostdata.tags'
+										[secondaryPlaceholder]="'Add tags here...'" [placeholder]="'Add tags here...'"
+										(onAdd)="hosts_addTag(hostdata.tags,hostdata.id)" [validators]="validators"
+										[errorMessages]="errorMessages" (onRemove)="hosts_removeTag($event,hostdata.id)"
+										[modelAsStrings]="true" style="font-family: 'Roboto', Roboto !important;">
+									</tag-input>
+								</td>
+								<td *AppHasRole="role.userAccess" class="dt-justify"
+									style="height: 35px; width: 420px;">
+									<label class="tagAnalyst">
+										{{hostdata?.tags}}
+									</label>
+								</td>
+								<td *AppHasRole="role.adminAccess" style="min-width: 50px;">
+									<div ngbDropdown class="div-center" container="body">
+										<a class="status" ngbDropdownToggle id="dropdownMenuButton"
+											data-toggle="dropdown" aria-haspopup="true"
+											style='padding-top:4px;padding-bottom:4px' (click)="fetchData(hostdata.id)">
+											<i class="fas fa-ellipsis-v resolve-circle-check" aria-hidden="true"></i>
+										</a>
+										<div id="dropdown" class="dropdown-menu" ngbDropdownMenu
+											aria-labelledby="dropdownMenuButton">
+											<ng-container *ngIf="hostdata.state == 0">
+												<a class="dropdown-item" ngbDropdownItem (click)="toggleShowDiv(hostdata)" >Open</a>
+												<a class="dropdown-item" ngbDropdownItem (click)="openModal()">View Configuration</a>
+												<a class="dropdown-item" ngbDropdownItem *ngIf="hostdata.is_active" (click)="cpt_restart()" >Restart Agent</a>
+												<a class="dropdown-item" ngbDropdownItem (click) ="disableHost(hostdata)">Disable</a>
+											</ng-container>
+											<ng-container *ngIf="hostdata.state == 1">
+												<a class="dropdown-item" ngbDropdownItem (click)="toggleShowDiv(hostdata)" >Open</a>
+												<a class="dropdown-item" ngbDropdownItem (click) ="addNodes(hostdata.id)" >Restore Host</a>
+												<a class="dropdown-item" ngbDropdownItem (click) ="deleteHost(hostdata.id, hostdata.display_name)">Delete Host</a>
+											</ng-container>
+										</div>
+										<!-- <div *ngIf="hostdata.state == 1" class="dropdown-menu" ngbDropdownMenu >
+											<i (click) ="addNodes(hostdata.id)" style="padding-left: 0px;" title="Restore Host" class="fa fa-check-circle delete-icon"></i>
+											<i (click) ="deleteHost(hostdata.id, hostdata.display_name)" title="Delete Host"  class="fa fa fa-trash-alt delete-icon"></i>
+										</div> -->
+									</div>
+
+								</td>
+								<!-- </ng-container> -->
+							</tr>
+							
+						</tbody>
+						<tr role="row" class="text-center" *ngIf="hostmainvalue_data?.length === 0">
+							<td colspan="8" style="font-size: larger;">
+								{{errorMessage}}
+							</td>
+						</tr>
+						
+					</table>
+
+					<!-- end:: Table -->
+
+
+				</div>
+				<!-- </div> -->
+				<!-- end:: Content -->
+
+			</div>
+
+
+		</div>
+	</div>
+</div>
+<div class="create" id="slideAlertDetail" [@flyInOutRTL]="isVisible ? true : false" [hidden]="!isVisible">
+	<div class="kt-portlet kt-portlet--last kt-portlet--responsive-mobile" id="kt_page_portlet">
+		<div class="kt-portlet__head kt-portlet__head--lg kt-portlet__head-responsive"
+			style="padding-right: 0px;background-color: #051E39;">
+			<div class="row col-12 kt-portlet__head-label " style="padding-right: 0px;">
+				<div class="row col-12" style="padding: 0px;">
+					<div class="col-12" style="padding: 0px;">
+						<span class="kt-portlet__head-icon" (click)="toggleHideDiv();" title='Close Detail Pane'>
+							<img src='./assets/media/icons/icon_close.svg' class="icon-close myicon" />
+						</span>
+						<span class="kt-portlet__head-icon" style="padding-left: 10px;">
+
+							<a class='logo-color menu-icon' style='font-weight: 400;' [routerLink]="['./',hostID]"
+								[state]="{ hostState: hostData?.state }" data-toggle='kt-tooltip' data-placement='top'
+								title='Open Host'>
+								<img src='./assets/media/icons/icon_open-new.svg' class="icon-expand myicon" /></a>
+						</span>
+						<div style="float: right;"  ngbDropdown class="dropdown show">
+							<!-- Three dots dropdown icon -->
+							<div *AppHasRole="role.adminAccess">
+								<a class="status" ngbDropdownToggle id="dropdownMenuButton"
+								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+								style='width: 90px;padding-top:4px;padding-bottom:4px'>
+								<img src='./assets/media/icons/icon_more.svg' class="icon-more myicon" />
+							</a>
+							<div class="dropdown-menu" style="max-width: 40px !important;" ngbDropdownMenu
+								aria-labelledby="dropdownMenuButton">
+								<ng-container *ngIf="hostData?.state == 0">
+									<a class="dropdown-item" ngbDropdownItem (click)="openModal()">View Configuration</a>
+									<a class="dropdown-item" ngbDropdownItem  *ngIf="hostData.is_active" (click)="cpt_restart()" >Restart Agent</a>
+									<a class="dropdown-item" ngbDropdownItem (click) ="disableHost(hostData)">Disable</a>
+								</ng-container>
+								<ng-container *ngIf="hostData?.state == 1">
+									<a class="dropdown-item" ngbDropdownItem (click) ="addNodes(hostData.id)" >Restore Host</a>
+									<a class="dropdown-item" ngbDropdownItem (click) ="deleteHost(hostData.id, hostData.display_name)">Delete Host</a>
+								</ng-container>
+							</div>
+							</div>
+							<div *AppHasRole="role.userAccess">
+								<a class="status" *ngIf="hostData?.state == 0"  ngbDropdownToggle id="dropdownMenuButton"
+								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+								style='width: 90px;padding-top:4px;padding-bottom:4px'>
+								<img src='./assets/media/icons/icon_more.svg' class="icon-more myicon" />
+							</a>
+							<div class="dropdown-menu" style="max-width: 40px !important;" ngbDropdownMenu
+								aria-labelledby="dropdownMenuButton">
+								<ng-container *ngIf="hostData?.state == 0">
+									<a class="dropdown-item" ngbDropdownItem (click)="openModal()">View Configuration</a>
+								</ng-container>
+							</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="">
+			<app-nodes *ngIf="enableChild" [hostData]="hostData"></app-nodes>
+		</div>
+	</div>
+</div>

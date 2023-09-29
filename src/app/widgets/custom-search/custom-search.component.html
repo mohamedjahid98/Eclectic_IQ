@@ -1,0 +1,9 @@
+<input id="customsearch" class="form-control custom-search" type="text" name="search" autocomplete="off" placeholder="Search" (keyup.enter)="emitEvent($event.target.value)" [(ngModel)]="textInput">
+<i class="fa fa-search" (click)="emitEvent" (click)="valueChanged()"></i>
+<i class="fa fa-times" (click)="clearSearch()" (click)="valueChanged()"></i>
+
+<!-- <button class="btn" [ngClass] = "btnClass" (click)="emitEvent" type="{{btnType}}" [disabled]="isDisabled" [attr.data-dissmiss]="modalDismiss" [routerLink]="btnLink">
+    <i *ngIf="icon" class="fa {{icon}}">
+    </i>{{text}}<span *ngIf=isLoading class="spinner-border spinner-border-sm" role="status" aria-hidden="true">
+    </span>
+</button> -->

@@ -1,0 +1,18 @@
+.fa-black-icon{
+  color: #9c9fa9;
+  padding-left:15px
+}
+.fa-green-icon{
+  color: #4b991d;
+  padding-left:15px;
+  cursor: pointer;
+}
+.close:hover{
+  cursor: pointer;
+}
+.ViewData{
+  color:#595d6e;
+  font-weight:bold;
+  font-size: 14px;
+  font-style: Roboto;
+}
